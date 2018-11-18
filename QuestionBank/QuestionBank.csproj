@@ -43,7 +43,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -88,19 +96,157 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\assets\global\css\components-rounded.min.css" />
+    <Content Include="Content\assets\global\css\components.min.css" />
+    <Content Include="Content\assets\global\css\plugins.min.css" />
+    <Content Include="Content\assets\global\plugins\bootstrap-fileinput\bootstrap-fileinput.css" />
+    <Content Include="Content\assets\global\plugins\bootstrap-fileinput\bootstrap-fileinput.js" />
+    <Content Include="Content\assets\global\plugins\bootstrap-switch\css\bootstrap-switch.min.css" />
+    <Content Include="Content\assets\global\plugins\bootstrap-switch\js\bootstrap-switch.min.js" />
+    <Content Include="Content\assets\global\plugins\bootstrap-toastr\toastr.min.css" />
+    <Content Include="Content\assets\global\plugins\bootstrap-toastr\toastr.min.js" />
+    <Content Include="Content\assets\global\plugins\bootstrap\css\bootstrap.min.css" />
+    <Content Include="Content\assets\global\plugins\bootstrap\js\bootstrap.min.js" />
+    <Content Include="Content\assets\global\plugins\datatables\datatables.min.css" />
+    <Content Include="Content\assets\global\plugins\datatables\datatables.min.js" />
+    <Content Include="Content\assets\global\plugins\datatables\images\back_disabled.png" />
+    <Content Include="Content\assets\global\plugins\datatables\images\back_enabled.png" />
+    <Content Include="Content\assets\global\plugins\datatables\images\back_enabled_hover.png" />
+    <Content Include="Content\assets\global\plugins\datatables\images\forward_disabled.png" />
+    <Content Include="Content\assets\global\plugins\datatables\images\forward_enabled.png" />
+    <Content Include="Content\assets\global\plugins\datatables\images\forward_enabled_hover.png" />
+    <Content Include="Content\assets\global\plugins\datatables\images\sort_asc.png" />
+    <Content Include="Content\assets\global\plugins\datatables\images\sort_asc_disabled.png" />
+    <Content Include="Content\assets\global\plugins\datatables\images\sort_both.png" />
+    <Content Include="Content\assets\global\plugins\datatables\images\sort_desc.png" />
+    <Content Include="Content\assets\global\plugins\datatables\images\sort_desc_disabled.png" />
+    <Content Include="Content\assets\global\plugins\datatables\plugins\bootstrap\datatables.bootstrap.css" />
+    <Content Include="Content\assets\global\plugins\datatables\plugins\bootstrap\datatables.bootstrap.js" />
+    <Content Include="Content\assets\global\plugins\font-awesome\css\font-awesome.min.css" />
+    <Content Include="Content\assets\global\plugins\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\assets\global\plugins\jquery-inputmask\inputmask\inputmask.date.extensions.min.js" />
+    <Content Include="Content\assets\global\plugins\jquery-inputmask\inputmask\inputmask.dependencyLib.min.js" />
+    <Content Include="Content\assets\global\plugins\jquery-inputmask\inputmask\inputmask.extensions.min.js" />
+    <Content Include="Content\assets\global\plugins\jquery-inputmask\inputmask\inputmask.loader.min.js" />
+    <Content Include="Content\assets\global\plugins\jquery-inputmask\inputmask\inputmask.min.js" />
+    <Content Include="Content\assets\global\plugins\jquery-inputmask\inputmask\inputmask.numeric.extensions.min.js" />
+    <Content Include="Content\assets\global\plugins\jquery-inputmask\inputmask\inputmask.phone.extensions.min.js" />
+    <Content Include="Content\assets\global\plugins\jquery-inputmask\inputmask\inputmask.regex.extensions.min.js" />
+    <Content Include="Content\assets\global\plugins\jquery-inputmask\inputmask\jquery.inputmask.min.js" />
+    <Content Include="Content\assets\global\plugins\jquery-inputmask\jquery.inputmask.bundle.min.js" />
+    <Content Include="Content\assets\global\plugins\jquery-slimscroll\jquery.slimscroll.min.js" />
+    <Content Include="Content\assets\global\plugins\jquery.blockui.min.js" />
+    <Content Include="Content\assets\global\plugins\jquery.min.js" />
+    <Content Include="Content\assets\global\plugins\jquery.sparkline.min.js" />
+    <Content Include="Content\assets\global\plugins\js.cookie.min.js" />
+    <Content Include="Content\assets\global\plugins\select2\css\select2-bootstrap.min.css" />
+    <Content Include="Content\assets\global\plugins\select2\css\select2.min.css" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\ar.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\az.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\bg.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\ca.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\cs.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\da.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\de.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\el.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\en.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\es.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\et.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\eu.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\fa.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\fi.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\fr.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\gl.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\he.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\hi.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\hr.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\hu.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\id.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\is.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\it.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\ja.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\km.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\ko.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\lt.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\lv.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\mk.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\ms.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\nb.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\nl.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\pl.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\pt-BR.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\pt.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\ro.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\ru.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\sk.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\sr-Cyrl.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\sr.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\sv.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\th.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\tr.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\uk.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\vi.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\zh-CN.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\i18n\zh-TW.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\select2.full.min.js" />
+    <Content Include="Content\assets\global\plugins\select2\js\select2.min.js" />
+    <Content Include="Content\assets\global\plugins\simple-line-icons\fonts\Simple-Line-Icons.dev.svg" />
+    <Content Include="Content\assets\global\plugins\simple-line-icons\fonts\Simple-Line-Icons.svg" />
+    <Content Include="Content\assets\global\plugins\simple-line-icons\simple-line-icons.min.css" />
+    <Content Include="Content\assets\global\scripts\app.min.js" />
+    <Content Include="Content\assets\global\scripts\datatable.min.js" />
+    <Content Include="Content\assets\layouts\layout\css\custom.min.css" />
+    <Content Include="Content\assets\layouts\layout\css\layout.min.css" />
+    <Content Include="Content\assets\layouts\layout\css\themes\darkblue.min.css" />
+    <Content Include="Content\assets\layouts\layout\img\logo.png" />
+    <Content Include="Content\assets\layouts\layout\scripts\layout.min.js" />
+    <Content Include="Content\assets\pages\css\login.min.css" />
+    <Content Include="Content\assets\pages\css\profile.min.css" />
+    <Content Include="Content\assets\pages\scripts\components-select2.min.js" />
+    <Content Include="Content\assets\pages\scripts\form-input-mask.js" />
+    <Content Include="Content\assets\pages\scripts\profile.min.js" />
+    <Content Include="Content\assets\pages\scripts\table-datatables-buttons.js" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\FileUpload.cs" />
+    <Compile Include="Models\Cevaplar.cs" />
+    <Compile Include="Models\Ders.cs" />
+    <Compile Include="Models\Konu.cs" />
+    <Compile Include="Models\KonuSoruDonemi.cs" />
+    <Compile Include="Models\Kullanici.cs" />
+    <Compile Include="Models\KullaniciDers.cs" />
+    <Compile Include="Models\QuestionBankDbContext.cs" />
+    <Compile Include="Models\Sinav.cs" />
+    <Compile Include="Models\SinavSorulari.cs" />
+    <Compile Include="Models\Soru.cs" />
+    <Compile Include="Models\SoruDonemi.cs" />
+    <Compile Include="Models\SoruTipi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
+    <Content Include="Content\assets\global\plugins\bootstrap-toastr\toastr.min.js.map" />
+    <Content Include="Content\assets\global\plugins\datatables\images\Sorting icons.psd" />
+    <Content Include="Content\assets\global\plugins\font-awesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\assets\global\plugins\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\assets\global\plugins\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\assets\global\plugins\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\assets\global\plugins\font-awesome\fonts\FontAwesome.otf" />
+    <Content Include="Content\assets\global\plugins\simple-line-icons\fonts\Simple-Line-Icons.eot" />
+    <Content Include="Content\assets\global\plugins\simple-line-icons\fonts\Simple-Line-Icons.ttf" />
+    <Content Include="Content\assets\global\plugins\simple-line-icons\fonts\Simple-Line-Icons.woff" />
     <None Include="packages.config" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -110,8 +256,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\" />
-    <Folder Include="Models\" />
+    <Folder Include="Infrastructure\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
