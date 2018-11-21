@@ -20,7 +20,7 @@
     <link href="/Content/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
     <!-- END GLOBAL MANDATORY STYLES -->
     <!-- BEGIN PAGE LEVEL PLUGINS -->
-    @*@RenderSection("styles", false)*@
+    @RenderSection("styles", false)
     <!-- END PAGE LEVEL PLUGINS -->
     <!-- BEGIN THEME GLOBAL STYLES -->
     <link href="/Content/assets/global/css/components.min.css" rel="stylesheet" id="style_components" type="text/css" />
@@ -69,7 +69,7 @@
 
                         <!-- BEGIN USER LOGIN DROPDOWN -->
                         <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
-                        @*@{
+                        @{
 
                             using (QuestionBank.Models.QuestionBankDbContext db = new QuestionBank.Models.QuestionBankDbContext())
                             {
@@ -82,7 +82,7 @@
                                         <img alt="@_kullanici.KullaniciAdi" class="img-circle" src="~/Uploads/Profile/@_kullanici.Foto" />
                                         <span class="username username-hide-on-mobile"> @_kullanici.Adi @_kullanici.Soyadi </span>
                                         <i class="fa fa-angle-down"></i>
-                                    </a>*@
+                                    </a>
                                     <ul class="dropdown-menu dropdown-menu-default">
                                         <li>
                                             <a href="@Url.RouteUrl("ProfileDetail")">
@@ -169,7 +169,7 @@
                                 </li>
                             </ul>
                         </li>
-                        @if (User.IsInRole(""))
+                        @if (User.IsInRole("Admin"))
                         {
                             <li class="heading">
                                 <h3 class="uppercase">Admin</h3>

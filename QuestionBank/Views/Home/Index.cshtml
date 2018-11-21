@@ -1,8 +1,16 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@model  IEnumerable<QuestionBank.Models.KullaniciDers>
+<div>
+    <h4>Size Atanan Dersler</h4>
+    <hr />
 
-<h2>sasdsadsad</h2>
-
+    @foreach (var item in Model)
+    {
+        <p>
+            @item.Ders.DersAdi
+        </p>
+    }
+</div>

@@ -65,6 +65,8 @@ namespace QuestionBank.Models
 
         [NotMapped]
         public string YeniSifre { get; set; }
+        [NotMapped]
+        public string YeniMail { get; set; }
 
         [NotMapped]
         [Compare("YeniSifre")]

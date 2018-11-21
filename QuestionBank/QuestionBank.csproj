@@ -207,16 +207,22 @@
     <Content Include="Content\assets\pages\scripts\profile.min.js" />
     <Content Include="Content\assets\pages\scripts\table-datatables-buttons.js" />
     <Content Include="Global.asax" />
-    <Content Include="Web.config" />
+    <Content Include="Uploads\no_image.png" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\FileUpload.cs" />
+    <Compile Include="Infrastructure\RoleProvider.cs" />
+    <Compile Include="Infrastructure\SelectedTabAttribute.cs" />
     <Compile Include="Models\Cevaplar.cs" />
     <Compile Include="Models\Ders.cs" />
     <Compile Include="Models\Konu.cs" />
@@ -247,6 +253,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\ProfileDetail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -256,7 +263,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Infrastructure\" />
+    <Folder Include="Uploads\Profile\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

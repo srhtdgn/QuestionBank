@@ -1,4 +1,6 @@
-﻿using System;
+﻿using QuestionBank.Infrastructure;
+using QuestionBank.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -6,12 +8,15 @@ using System.Web.Mvc;
 
 namespace QuestionBank.Controllers
 {
-    public class HomeController : Controller
+    [SelectedTab("Home")]
+    public class HomeController : BaseController
     {
-        // GET: Home
         public ActionResult Index()
         {
-            return View();
+            List<KullaniciDers> ders;
+            QuestionBankDbContext db = new QuestionBankDbContext();
+            ders = db.KullaniciDers.Where(x => x.Kullanici.KullaniciAdi.Equals(User.Identity.Name)).ToList();
+            return View(ders);
         }
     }
 }
