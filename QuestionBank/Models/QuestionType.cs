@@ -6,26 +6,22 @@ namespace QuestionBank.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("SoruDonemi")]
-    public partial class SoruDonemi
+    [Table("QuestionType")]
+    public partial class QuestionType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public SoruDonemi()
+        public QuestionType()
         {
-            KonuSoruDonemi = new HashSet<KonuSoruDonemi>();
-            Soru = new HashSet<Soru>();
+            Question = new HashSet<Question>();
         }
 
         public int ID { get; set; }
 
         [Required]
-        [StringLength(9)]
-        public string SoruDonemiAdı { get; set; }
+        [StringLength(15)]
+        public string QuestionTypeName { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<KonuSoruDonemi> KonuSoruDonemi { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Soru> Soru { get; set; }
+        public virtual ICollection<Question> Question { get; set; }
     }
 }

@@ -13,9 +13,9 @@ namespace QuestionBank.Controllers
     {
         public ActionResult Index()
         {
-            List<KullaniciDers> ders;
+            List<UserLesson> ders;
             QuestionBankDbContext db = new QuestionBankDbContext();
-            ders = db.KullaniciDers.Where(x => x.Kullanici.KullaniciAdi.Equals(User.Identity.Name)).ToList();
+            ders = db.UserLesson.Where(x => x.User.UserName.Equals(User.Identity.Name)).ToList();
             return View(ders);
         }
     }

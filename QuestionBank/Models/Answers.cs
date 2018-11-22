@@ -6,17 +6,17 @@ namespace QuestionBank.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("KonuSoruDonemi")]
-    public partial class KonuSoruDonemi
+    public partial class Answers
     {
         public int ID { get; set; }
 
-        public int KonuID { get; set; }
+        public int QuestionID { get; set; }
 
-        public int SoruDonemiID { get; set; }
+        [Required]
+        public string Answer { get; set; }
 
-        public virtual Konu Konu { get; set; }
+        public bool IsItTrue { get; set; }
 
-        public virtual SoruDonemi SoruDonemi { get; set; }
+        public virtual Question Question { get; set; }
     }
 }

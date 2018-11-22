@@ -50,6 +50,9 @@
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
@@ -99,6 +102,7 @@
     <Content Include="Content\assets\global\css\components-rounded.min.css" />
     <Content Include="Content\assets\global\css\components.min.css" />
     <Content Include="Content\assets\global\css\plugins.min.css" />
+    <Content Include="Content\assets\global\img\remove-icon-small.png" />
     <Content Include="Content\assets\global\plugins\bootstrap-fileinput\bootstrap-fileinput.css" />
     <Content Include="Content\assets\global\plugins\bootstrap-fileinput\bootstrap-fileinput.js" />
     <Content Include="Content\assets\global\plugins\bootstrap-switch\css\bootstrap-switch.min.css" />
@@ -217,24 +221,27 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LessonController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\FileUpload.cs" />
     <Compile Include="Infrastructure\RoleProvider.cs" />
     <Compile Include="Infrastructure\SelectedTabAttribute.cs" />
-    <Compile Include="Models\Cevaplar.cs" />
-    <Compile Include="Models\Ders.cs" />
-    <Compile Include="Models\Konu.cs" />
-    <Compile Include="Models\KonuSoruDonemi.cs" />
-    <Compile Include="Models\Kullanici.cs" />
-    <Compile Include="Models\KullaniciDers.cs" />
+    <Compile Include="Models\Answers.cs" />
+    <Compile Include="Models\C_MigrationHistory.cs" />
+    <Compile Include="Models\Exam.cs" />
+    <Compile Include="Models\ExamQuestions.cs" />
+    <Compile Include="Models\Lesson.cs" />
+    <Compile Include="Models\Question.cs" />
     <Compile Include="Models\QuestionBankDbContext.cs" />
-    <Compile Include="Models\Sinav.cs" />
-    <Compile Include="Models\SinavSorulari.cs" />
-    <Compile Include="Models\Soru.cs" />
-    <Compile Include="Models\SoruDonemi.cs" />
-    <Compile Include="Models\SoruTipi.cs" />
+    <Compile Include="Models\QuestionPeriod.cs" />
+    <Compile Include="Models\QuestionType.cs" />
+    <Compile Include="Models\Topic.cs" />
+    <Compile Include="Models\TopicQuestionPeriod.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UserLesson.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -254,6 +261,9 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\ProfileDetail.cshtml" />
+    <Content Include="Views\Lesson\Add.cshtml" />
+    <Content Include="Views\Lesson\Index.cshtml" />
+    <Content Include="Views\Lesson\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -264,6 +274,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Uploads\Profile\" />
+    <Folder Include="Views\Users\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

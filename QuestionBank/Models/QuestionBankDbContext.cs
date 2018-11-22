@@ -12,68 +12,69 @@ namespace QuestionBank.Models
         {
         }
 
-        public virtual DbSet<Cevaplar> Cevaplar { get; set; }
-        public virtual DbSet<Ders> Ders { get; set; }
-        public virtual DbSet<Konu> Konu { get; set; }
-        public virtual DbSet<KonuSoruDonemi> KonuSoruDonemi { get; set; }
-        public virtual DbSet<Kullanici> Kullanici { get; set; }
-        public virtual DbSet<KullaniciDers> KullaniciDers { get; set; }
-        public virtual DbSet<Sinav> Sinav { get; set; }
-        public virtual DbSet<SinavSorulari> SinavSorulari { get; set; }
-        public virtual DbSet<Soru> Soru { get; set; }
-        public virtual DbSet<SoruDonemi> SoruDonemi { get; set; }
-        public virtual DbSet<SoruTipi> SoruTipi { get; set; }
+        public virtual DbSet<C_MigrationHistory> C_MigrationHistory { get; set; }
+        public virtual DbSet<Answers> Answers { get; set; }
+        public virtual DbSet<Exam> Exam { get; set; }
+        public virtual DbSet<ExamQuestions> ExamQuestions { get; set; }
+        public virtual DbSet<Lesson> Lesson { get; set; }
+        public virtual DbSet<Question> Question { get; set; }
+        public virtual DbSet<QuestionPeriod> QuestionPeriod { get; set; }
+        public virtual DbSet<QuestionType> QuestionType { get; set; }
+        public virtual DbSet<Topic> Topic { get; set; }
+        public virtual DbSet<TopicQuestionPeriod> TopicQuestionPeriod { get; set; }
+        public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<UserLesson> UserLesson { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Ders>()
-                .HasMany(e => e.Konu)
-                .WithRequired(e => e.Ders)
+            modelBuilder.Entity<Exam>()
+                .HasMany(e => e.ExamQuestions)
+                .WithRequired(e => e.Exam)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Ders>()
-                .HasMany(e => e.KullaniciDers)
-                .WithRequired(e => e.Ders)
+            modelBuilder.Entity<Lesson>()
+                .HasMany(e => e.Topic)
+                .WithRequired(e => e.Lesson)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Konu>()
-                .HasMany(e => e.KonuSoruDonemi)
-                .WithRequired(e => e.Konu)
+            modelBuilder.Entity<Lesson>()
+                .HasMany(e => e.UserLesson)
+                .WithRequired(e => e.Lesson)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Kullanici>()
-                .HasMany(e => e.KullaniciDers)
-                .WithRequired(e => e.Kullanici)
+            modelBuilder.Entity<Question>()
+                .HasMany(e => e.Answers)
+                .WithRequired(e => e.Question)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Sinav>()
-                .HasMany(e => e.SinavSorulari)
-                .WithRequired(e => e.Sinav)
+            modelBuilder.Entity<Question>()
+                .HasMany(e => e.ExamQuestions)
+                .WithRequired(e => e.Question)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Soru>()
-                .HasMany(e => e.Cevaplar)
-                .WithRequired(e => e.Soru)
+            modelBuilder.Entity<QuestionPeriod>()
+                .HasMany(e => e.Question)
+                .WithRequired(e => e.QuestionPeriod)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Soru>()
-                .HasMany(e => e.SinavSorulari)
-                .WithRequired(e => e.Soru)
+            modelBuilder.Entity<QuestionPeriod>()
+                .HasMany(e => e.TopicQuestionPeriod)
+                .WithRequired(e => e.QuestionPeriod)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<SoruDonemi>()
-                .HasMany(e => e.KonuSoruDonemi)
-                .WithRequired(e => e.SoruDonemi)
+            modelBuilder.Entity<QuestionType>()
+                .HasMany(e => e.Question)
+                .WithRequired(e => e.QuestionType)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<SoruDonemi>()
-                .HasMany(e => e.Soru)
-                .WithRequired(e => e.SoruDonemi)
+            modelBuilder.Entity<Topic>()
+                .HasMany(e => e.TopicQuestionPeriod)
+                .WithRequired(e => e.Topic)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<SoruTipi>()
-                .HasMany(e => e.Soru)
-                .WithRequired(e => e.SoruTipi)
+            modelBuilder.Entity<User>()
+                .HasMany(e => e.UserLesson)
+                .WithRequired(e => e.User)
                 .WillCascadeOnDelete(false);
         }
     }

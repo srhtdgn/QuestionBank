@@ -39,11 +39,11 @@ namespace QuestionBank.Infrastructure
         {
             using (Models.QuestionBankDbContext db = new Models.QuestionBankDbContext())
             {
-                if (db.Kullanici.FirstOrDefault(x => x.KullaniciAdi.Equals(username)).YoneticiMi)
+                if (db.User.FirstOrDefault(x => x.UserName.Equals(username)).IsItAdmin)
                 {
                     return new string[] { "Admin", "Hoca" };
                 }
-                return new string[] { "oca" };
+                return new string[] { "Hoca" };
             }
         }
 

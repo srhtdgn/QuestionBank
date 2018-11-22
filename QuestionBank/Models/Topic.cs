@@ -6,26 +6,26 @@ namespace QuestionBank.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Konu")]
-    public partial class Konu
+    [Table("Topic")]
+    public partial class Topic
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Konu()
+        public Topic()
         {
-            KonuSoruDonemi = new HashSet<KonuSoruDonemi>();
+            TopicQuestionPeriod = new HashSet<TopicQuestionPeriod>();
         }
 
         public int ID { get; set; }
 
         [Required]
         [StringLength(50)]
-        public string KonuAdi { get; set; }
+        public string TopicName { get; set; }
 
-        public int DersID { get; set; }
+        public int LessonID { get; set; }
 
-        public virtual Ders Ders { get; set; }
+        public virtual Lesson Lesson { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<KonuSoruDonemi> KonuSoruDonemi { get; set; }
+        public virtual ICollection<TopicQuestionPeriod> TopicQuestionPeriod { get; set; }
     }
 }

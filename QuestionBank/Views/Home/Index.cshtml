@@ -1,8 +1,8 @@
-﻿
+﻿@model  IEnumerable<QuestionBank.Models.UserLesson>
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@model  IEnumerable<QuestionBank.Models.KullaniciDers>
+
 <div>
     <h4>Size Atanan Dersler</h4>
     <hr />
@@ -10,7 +10,7 @@
     @foreach (var item in Model)
     {
         <p>
-            @item.Ders.DersAdi
+            @item.Lesson.LessonName
         </p>
     }
 </div>

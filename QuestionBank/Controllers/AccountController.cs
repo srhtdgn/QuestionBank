@@ -6,28 +6,34 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using QuestionBank.Infrastructure;
 
 namespace QuestionBank.Controllers
 {
+    [SelectedTab("Home")]
     public class AccountController :Controller
     {
         // GET: Account
         public ActionResult Login()
+
         {
             return View();
         }
         [HttpPost]
-        public ActionResult Login(Kullanici model, string ReturnUrl)
+        public ActionResult Login(User model, string ReturnUrl)
         {
-            ModelState.Remove("KullaniciAdi");
+            ModelState.Remove("UserName");
+            ModelState.Remove("Name");
+            ModelState.Remove("SurName");
+
             if (ModelState.IsValid)
             {
                 using (QuestionBankDbContext db = new QuestionBankDbContext())
                 {
-                    Kullanici kul = db.Kullanici.SingleOrDefault(x => x.Mail == model.Mail && x.Sifre == model.Sifre);
-                    if (kul != null)
+                    User user = db.User.SingleOrDefault(x => x.Mail == model.Mail && x.Password == model.Password);
+                    if (user != null)
                     {
-                        FormsAuthentication.SetAuthCookie(kul.KullaniciAdi, true);
+                        FormsAuthentication.SetAuthCookie(user.UserName, true);
 
                         if (!string.IsNullOrWhiteSpace(ReturnUrl))
                             return Redirect(ReturnUrl);
@@ -52,29 +58,29 @@ namespace QuestionBank.Controllers
                 if (TempData["Message"]!=null)
                     ViewBag.Message = TempData["Message"].ToString();
 
-                    return View(Db.Kullanici.SingleOrDefault(x=>x.KullaniciAdi.Equals(User.Identity.Name)));              
+                    return View(Db.User.SingleOrDefault(x=>x.UserName.Equals(User.Identity.Name)));              
             }
                
         }
         [Authorize]
         [HttpPost]
-        public ActionResult ChangeMail(Kullanici model)
+        public ActionResult ChangeMail(User model)
         {
-            ModelState.Remove("KullaniciAdi");
-            ModelState.Remove("Sifre");
-            ModelState.Remove("Adi");
-            ModelState.Remove("Soyadi");
+            ModelState.Remove("UserName");
+            ModelState.Remove("Password");
+            ModelState.Remove("Name");
+            ModelState.Remove("SurName");
             if (ModelState.IsValid)
             {
                 using (QuestionBankDbContext Db = new QuestionBankDbContext())
                 {
-                    List<Kullanici> lst = Db.Kullanici.ToList();
+                    List<User> lst = Db.User.ToList();
 
-                    Kullanici kullanici = lst.SingleOrDefault(x => x.KullaniciAdi.Equals(User.Identity.Name));
-                    if (lst.SingleOrDefault(x => x.Mail.Equals(model.Mail) && x.ID != kullanici.ID) == null)
+                    User user = lst.SingleOrDefault(x => x.UserName.Equals(User.Identity.Name));
+                    if (lst.SingleOrDefault(x => x.Mail.Equals(model.Mail) && x.ID != user.ID) == null)
                     {
-                        kullanici.Mail = model.YeniMail;
-                        Db.Entry(kullanici).State = System.Data.Entity.EntityState.Modified;
+                        user.Mail = model.Mail;
+                        Db.Entry(user).State = System.Data.Entity.EntityState.Modified;
                         Db.SaveChanges();
                         TempData["Message"] = $"<div class='alert alert-success'><strong>Başarılı!</strong> Bilgileriniz Başarıyla Güncellendi... </div>";
                     }
@@ -84,7 +90,7 @@ namespace QuestionBank.Controllers
                     }
                 }
             }
-            return RedirectToRoute("ProfileDetail");
+            return Redirect("Profil#tab_1_4");
 
         }
         [Authorize]
@@ -95,9 +101,9 @@ namespace QuestionBank.Controllers
             {
                 using (QuestionBankDbContext Db = new QuestionBankDbContext())
                 {
-                    Kullanici kullanici = Db.Kullanici.SingleOrDefault(x => x.KullaniciAdi.Equals(User.Identity.Name));
-                    kullanici.Foto = FileUpload.FileName(image, FileUpload.UploadFolder.Profile);
-                    Db.Entry(kullanici).State = System.Data.Entity.EntityState.Modified;
+                    User user = Db.User.SingleOrDefault(x => x.UserName.Equals(User.Identity.Name));
+                    user.Photo = FileUpload.FileName(image, FileUpload.UploadFolder.Profile);
+                    Db.Entry(user).State = System.Data.Entity.EntityState.Modified;
                     Db.SaveChanges();
                     TempData["Message"] = $"<div class='alert alert-success'><strong>Başarılı!</strong> Profil Fotoğrafınız Başarıyla Güncellendi... </div>";
                 }
@@ -107,24 +113,24 @@ namespace QuestionBank.Controllers
 
         [Authorize]
         [HttpPost]
-        public ActionResult ChangePassword(Kullanici model)
+        public ActionResult ChangePassword(User model)
         {
-            ModelState.Remove("KullaniciAdi");
-            ModelState.Remove("Adi");
-            ModelState.Remove("Soyadi");
+            ModelState.Remove("UserName");
+            ModelState.Remove("Name");
+            ModelState.Remove("SurName");
             ModelState.Remove("Mail");
             if (ModelState.IsValid)
             {
                 using (QuestionBankDbContext Db = new QuestionBankDbContext())
                 {
-                    Kullanici kullanici = Db.Kullanici.SingleOrDefault(x => x.KullaniciAdi.Equals(User.Identity.Name));
+                    User user = Db.User.SingleOrDefault(x => x.UserName.Equals(User.Identity.Name));
 
-                    if (kullanici.Sifre.Equals(model.Sifre))
+                    if (user.Password.Equals(model.Password))
                     {
-                        kullanici.Sifre = model.YeniSifre;
-                        Db.Entry(kullanici).State = System.Data.Entity.EntityState.Modified;
+                        user.Password = model.NewPassword;
+                        Db.Entry(user).State = System.Data.Entity.EntityState.Modified;
                         Db.SaveChanges();
-                        TempData["Message"] = $"<div class='alert alert-success'><strong>Başarılı!</strong> Profil Fotoğrafınız Başarıyla Güncellendi... </div>";
+                        TempData["Message"] = $"<div class='alert alert-success'><strong>Başarılı!</strong> Şifreniz Başarıyla Güncellendi... </div>";
                     }
                     else
                     {
