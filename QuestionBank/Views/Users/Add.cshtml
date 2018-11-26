@@ -13,7 +13,7 @@
         <div class="btn-group">
             <button class="btn btn-circle green" onclick="location.href='@Url.RouteUrl("Users")'">
                 <i class="fa fa-arrow-left"></i>
-                Kullanıcı Listesi     
+                Kullanıcı Listesi
             </button>
         </div>
     </div>
@@ -33,7 +33,7 @@
                     <span class="input-group-addon">
                         <i class="fa fa-envelope"></i>
                     </span>
-                    @Html.TextBoxFor(model =>model.Mail, new { @class = "form-control input-circle-right", @placeholder = "Mail Adresi" })
+                    @Html.TextBoxFor(model => model.Mail, new { @class = "form-control input-circle-right", @placeholder = "Mail Adresi" })
                 </div>
                 @Html.ValidationMessageFor(model => model.Mail, "", new { @class = "text-danger" })
             </div>
@@ -65,7 +65,7 @@
             <div class="form-group">
                 <label>Dersler</label>
 
-                <select id="LessonsIDs" name="LessonsIDs" class="form-control select2-multiple select2-hidden-accessible "  multiple="" tabindex="-1" aria-hidden="true">
+                <select id="LessonsIDs" name="LessonsIDs" class="form-control select2-multiple select2-hidden-accessible " multiple="" tabindex="-1" aria-hidden="true">
                     @foreach (var item in ViewBag.Lessons)
                     {
                         <option value="@item.ID">@item.LessonName</option>
@@ -75,7 +75,18 @@
                 @*@Html.ValidationMessageFor(model => model.us, "", new { @class = "text-danger" })*@
 
             </div>
-
+            @*<div class="form-group">
+                <div class="md-checkbox">
+                    <input type="checkbox" id="checkbox30" class="md-check">
+                    <label for="checkbox30">
+                        <span class="inc"></span>
+                        <span class="check"></span>
+                        <span class="box"></span> 
+                        @Html.CheckBoxFor(model => model.IsItAdmin) Yönetici
+                    </label>
+                </div>
+            </div>*@
+            
             <div class="form-group">
                 <label>Yönetici Mi?</label>
                 <div class="mt-checkbox-inline">
@@ -86,7 +97,7 @@
                 </div>
             </div>
             <div class="margin-top-10">
-                <input type="submit" value="Ekle" class="btn btn-Success" />
+                <input type="submit" value="Kullanıcı Ekle" class="btn btn-circle green" />
             </div>
         </div>
     }

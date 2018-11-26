@@ -17,7 +17,7 @@ namespace QuestionBank.Models
         }
 
         public int ID { get; set; }
-
+        [Display(Name ="Ders Adý")]
         [Required]
         [StringLength(50)]
         public string LessonName { get; set; }
