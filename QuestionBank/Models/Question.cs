@@ -40,5 +40,6 @@ namespace QuestionBank.Models
         public virtual QuestionPeriod QuestionPeriod { get; set; }
 
         public virtual QuestionType QuestionType { get; set; }
+        public virtual Topic Topic { get; set; }
     }
 }

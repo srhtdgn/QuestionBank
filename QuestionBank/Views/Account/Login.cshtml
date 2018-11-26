@@ -68,20 +68,22 @@ License: You must have a valid license purchased only from themeforest(the above
             <h3 class="form-title font-green">Trakya Üniversitesi <br />Soru Bankası</h3>
             @Html.Raw(ViewBag.Message)
             <div class="form-group">
+
                 @Html.LabelFor(model => model.Mail, htmlAttributes: new { @class = "control-label visible-ie8 visible-ie9" })
-                @Html.EditorFor(model => model.Mail, new { htmlAttributes = new { @class = "form-control form-control-solid placeholder-no-fix", @autocomplete = "off", @placeholder = "Mail", @Value = "serhat@mail.com" } })
+
+                @Html.EditorFor(model => model.Mail, new { htmlAttributes = new { @class = "form-control input-circle placeholder-no-fix", @autocomplete = "off", @placeholder = "Mail"  } })
                 @Html.ValidationMessageFor(model => model.Mail, "", new { @class = "text-danger" })
 
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label visible-ie8 visible-ie9" })
-                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control form-control-solid placeholder-no-fix", @autocomplete = "off", @placeholder = "Şifre", @type = "password", @Value = "357" } })
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control input-circle placeholder-no-fix", @autocomplete = "off", @placeholder = "Şifre", @type = "password" } })
                 @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
 
             </div>
             <div class="form-actions">
-                <button type="submit" class="btn green btn-block uppercase">Giriş Yap</button>
+                <button type="submit" class="btn green btn-block btn circle uppercase">Giriş Yap</button>
             </div>
         }
         <!-- END LOGIN FORM -->

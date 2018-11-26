@@ -10,6 +10,7 @@ namespace QuestionBank.Models
         public QuestionBankDbContext()
             : base("name=QuestionBankDbContext")
         {
+            Database.SetInitializer<QuestionBankDbContext>(new MyInitializer());
         }
 
         public virtual DbSet<C_MigrationHistory> C_MigrationHistory { get; set; }
@@ -76,6 +77,15 @@ namespace QuestionBank.Models
                 .HasMany(e => e.UserLesson)
                 .WithRequired(e => e.User)
                 .WillCascadeOnDelete(false);
+        }
+
+        public class MyInitializer : CreateDatabaseIfNotExists<QuestionBankDbContext>
+        {
+            protected override void Seed(QuestionBankDbContext context)
+            {
+                base.Seed(context);
+               
+            }
         }
     }
 }

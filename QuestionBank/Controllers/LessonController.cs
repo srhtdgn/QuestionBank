@@ -46,7 +46,7 @@ namespace QuestionBank.Controllers
                     }
                 }
             }
-            return View(model);
+            return View();
         }
         public ActionResult Edit(int ID)
         {
@@ -87,13 +87,16 @@ namespace QuestionBank.Controllers
         public string Delete(int ID)
         {
             string message = string.Empty;
-            using (QuestionBankDbContext db = new QuestionBankDbContext())
+            using (QuestionBankDbContext Db = new QuestionBankDbContext())
             {
-                Lesson ders = db.Lesson.SingleOrDefault(x => x.ID.Equals(ID));
+                Lesson ders = Db.Lesson.SingleOrDefault(x => x.ID.Equals(ID));
                 if (ders != null)
                 {
-                    db.Lesson.Remove(ders);
-                    db.SaveChanges();
+                    IEnumerable<UserLesson> dersles = Db.UserLesson.RemoveRange(Db.UserLesson.Where(x => x.LessonID == ID));
+                   
+                    Db.Lesson.Remove(ders);
+                   
+                    Db.SaveChanges();
                     message = JsonConvert.SerializeObject(new { durum = "OK", mesaj = "Ders Silindi" });
                 }
                 else

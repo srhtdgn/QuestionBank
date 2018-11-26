@@ -27,5 +27,6 @@ namespace QuestionBank.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TopicQuestionPeriod> TopicQuestionPeriod { get; set; }
+        public virtual  ICollection<Question> Questions { get; set; }
     }
 }
