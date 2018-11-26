@@ -3,7 +3,7 @@
     ViewBag.Page = "Kullanıcı";
     ViewBag.Title = "Profil Yönetimi";
     ViewBag.Description = "Profil yönetim ekranı";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
 <div class="row">
     <div class="col-md-12">
@@ -39,10 +39,10 @@
                                     <a href="#tab_1_1" data-toggle="tab">Kişisel Bilgiler</a>
                                 </li>
                                 <li>
-                                    <a href="#tab_1_2" data-toggle="tab">Resmi Değiştir</a>
+                                    <a href="#tab_1_2" data-toggle="tab">Resim Değiştir</a>
                                 </li>
                                 <li>
-                                    <a href="#tab_1_3" data-toggle="tab">Şifreyi Değiştir</a>
+                                    <a href="#tab_1_3" data-toggle="tab">Şifre Değiştir</a>
                                 </li>
                                 <li>
                                     <a href="#tab_1_4" data-toggle="tab">Mail Değiştir</a>
@@ -57,22 +57,22 @@
                                     {
                                         <div class="form-group">
                                             <label class="control-label">Kullanıcı Adı</label>
-                                            @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                                            @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control input-circle", @disabled = "disabled" } })
                                             @*@Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })*@
                                         </div>
                                         <div class="form-group">
                                             <label class="control-label">Adı</label>
-                                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control input-circle", @disabled = "disabled" } })
                                             @*@Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })*@
                                         </div>
                                         <div class="form-group">
                                             <label class="control-label">Soyadı</label>
-                                            @Html.EditorFor(model => model.SurName, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.EditorFor(model => model.SurName, new { htmlAttributes = new { @class = "form-control input-circle", @disabled = "disabled" } })
                                             @*@Html.ValidationMessageFor(model => model.SurName, "", new { @class = "text-danger" })*@
                                         </div>
                                         <div class="form-group">
                                             <label class="control-label">Mail</label>
-                                            <input type="text" name="mevcutmail" id="mevcutmail" value="@Model.Mail" class="form-control" />
+                                            <input type="text" name="mevcutmail" id="mevcutmail" value="@Model.Mail" class="form-control input-circle" disabled />
                                            
                                             @*@Html.EditorFor(model => model.Mail,new { htmlAttributes = new { @class = "form-control"} })*@
 
@@ -102,7 +102,7 @@
                                             </div>
                                         </div>
                                         <div class="margin-top-10">
-                                            <input type="submit" value="Kaydet" class="btn btn-default" />
+                                            <input type="submit" value="Kaydet" class="btn btn-circle green" />
                                         </div>
                                     }
                                 </div>
@@ -111,26 +111,26 @@
                                     {
                                         <div class="form-group">
                                             <label class="control-label">Mevcut Şifre</label>
-                                            @Html.PasswordFor(x => x.Password, new { @class = "form-control" })
+                                            @Html.PasswordFor(x => x.Password, new { @class = "form-control input-circle" })
                                             @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
 
                                         </div>
 
                                         <div class="form-group">
                                             <label class="control-label">Yeni Şifre</label>
-                                            @Html.PasswordFor(x => x.NewPassword, new { @class = "form-control" })
+                                            @Html.PasswordFor(x => x.NewPassword, new { @class = "form-control input-circle" })
                                             @Html.ValidationMessageFor(model => model.NewPassword, "", new { @class = "text-danger" })
 
                                         </div>
                                         <div class="form-group">
                                             <label class="control-label">Yeni Şifre Tekrar</label>
-                                            @Html.PasswordFor(x => x.NewPasswordAgain, new { @class = "form-control" })
+                                            @Html.PasswordFor(x => x.NewPasswordAgain, new { @class = "form-control input-circle" })
                                             @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
 
                                         </div>
 
                                         <div class="margin-top-10">
-                                            <input type="submit" value="Kaydet" class="btn btn-default" />
+                                            <input type="submit" value="Kaydet" class="btn btn-circle green" />
                                         </div>
                                     }
                                 </div>
@@ -139,11 +139,11 @@
                                     {
                                         <div class="form-group">
                                             <label class="control-label">Mail Güncelleme</label>
-                                            @Html.EditorFor(model => model.Mail, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.EditorFor(model => model.Mail, new { htmlAttributes = new { @class = "form-control input-circle" } })
                                             @Html.ValidationMessageFor(model => model.Mail, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="margin-top-10">
-                                            <input type="submit" value="Kaydet" class="btn btn-default" />
+                                            <input type="submit" value="Kaydet" class="btn btn-circle green" />
                                         </div>
                                     }
                                 </div>

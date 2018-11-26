@@ -27,7 +27,7 @@ namespace QuestionBank
             routes.MapRoute(name: "EditLesson", url: "DersDuzenle/{ID}", defaults: new { controller = "Lesson", action = "Edit" });
             routes.MapRoute(name: "DeleteLesson", url: "DersSil", defaults: new { controller = "Lesson", action = "Delete" });
             #endregion
-
+      
             #region Users
             routes.MapRoute(name: "Users", url: "Kullanicilar", defaults: new { controller = "Users", action = "Index" });
             routes.MapRoute(name: "AddUser", url: "KullaniciEkle", defaults: new { controller = "Users", action = "Add" });

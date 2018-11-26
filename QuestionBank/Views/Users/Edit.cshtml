@@ -1,0 +1,103 @@
+﻿@model QuestionBank.Models.User
+@{
+    ViewBag.Page = "Kullanıcılar";
+    ViewBag.Title = "Kullanıcı Yönetimi";
+    ViewBag.Description = "Kullanıcı Güncelleme Ekranı";
+
+}
+
+<h2>Yeni Kullanıcı Tanımlama</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="btn-group">
+            <button class="btn sbold green" onclick="location.href='@Url.RouteUrl("Users")'">
+                Kullanıcı Listesi
+                <i class="fa fa-chevron-left"></i>
+            </button>
+        </div>
+    </div>
+</div>
+<br />
+@Html.Raw(@ViewBag.Message)
+
+<div class="portlet-body form">
+    @using (Html.BeginForm("Edit", "Users", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-body">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <label>Mail Adresi</label>
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-envelope"></i>
+                    </span>
+                    @Html.TextBoxFor(model => model.Mail, new { @class = "form-control input-circle-right", @placeholder = "Mail Adresi" })
+                </div>
+                @Html.ValidationMessageFor(model => model.Mail, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group table-bordered" >
+                <label>Kullanıcı Adı</label>
+                @Html.TextBoxFor(model => model.UserName, new { @class = "form-control input-circle", @placeholder = "Kullanıcı Adı" })
+                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+            </div>
+
+            @*<div class="form-group">
+                <label>Şifre</label>
+                @Html.PasswordFor(model => model.Password, new { @class = "form-control spinner", @placeholder = "Şifre" , @value=Model.Password})
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                <label>Adı</label>
+                @Html.TextBoxFor(model => model.Name, new { @class = "form-control spinner", @placeholder = "Adınız" })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                <label>Soyadı</label>
+                @Html.TextBoxFor(model => model.SurName, new { @class = "form-control spinner", @placeholder = "Soyadınız" })
+                @Html.ValidationMessageFor(model => model.SurName, "", new { @class = "text-danger" })
+            </div>*@
+
+            <div class="form-group">
+                <label>Dersler</label>
+
+                <select id="lessonsIDs" name="lessonsIDs" class="form-control select2-multiple select2-hidden-accessible" multiple="" tabindex="-1" aria-hidden="true">
+
+                    @foreach (var item in ViewBag.Lessons)
+                    {
+                        <option @(ViewBag.UserLessons.IndexOf(item.ID) != -1 ? "selected" : "") value="@item.ID">@item.LessonName</option>
+                    }
+
+                </select>
+                @*@Html.ValidationMessageFor(model => model.us, "", new { @class = "text-danger" })*@
+
+            </div>
+
+            <div class="form-group">
+                <label>Yönetici Mi?</label>
+                <div class="mt-checkbox-inline">
+                    <label class="mt-checkbox">
+                        @Html.CheckBoxFor(model => model.IsItAdmin) Yönetici
+                        <span></span>
+                    </label>
+                </div>
+            </div>
+            <div class="margin-top-10">
+                <input type="submit" value="Güncelle" class="btn btn-Success" />
+            </div>
+        </div>
+    }
+</div>
+@section styles{
+    <link href="/Content/assets/global/plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+    <link href="/Content/assets/global/plugins/select2/css/select2-bootstrap.min.css" rel="stylesheet" type="text/css" />
+}
+
+@section scripts {
+    <script src="/Content/assets/global/plugins/select2/js/select2.full.min.js" type="text/javascript"></script>
+    <script src="/Content/assets/pages/scripts/components-select2.min.js" type="text/javascript"></script>
+}
