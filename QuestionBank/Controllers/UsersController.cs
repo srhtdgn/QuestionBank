@@ -101,7 +101,7 @@ namespace QuestionBank.Controllers
             ModelState.Remove("Password");
           
 
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && lessonsIDs != null)
             {
                 using (QuestionBankDbContext Db = new QuestionBankDbContext())
                 {
@@ -119,15 +119,19 @@ namespace QuestionBank.Controllers
                             user.Mail = model.Mail;
                             user.IsItAdmin = model.IsItAdmin;
 
-                             
-                            foreach (int item in lessonsIDs)
-                            {
-                                UserLesson userLesson = Db.UserLesson.SingleOrDefault(x => x.LessonID.Equals(item) && x.UserID.Equals(model.ID));
-                                if (userLesson == null)
+                         
+                            
+                                foreach (int item in lessonsIDs)
                                 {
-                                    Db.UserLesson.Add(new UserLesson() { LessonID = item, UserID = model.ID });
-                                }                                
-                            }
+                                    UserLesson userLesson = Db.UserLesson.SingleOrDefault(x => x.LessonID.Equals(item) && x.UserID.Equals(model.ID));
+                                    if (userLesson == null)
+                                    {
+                                        Db.UserLesson.Add(new UserLesson() { LessonID = item, UserID = model.ID });
+                                    }
+                                }
+
+                            
+                           
                             List<UserLesson> silinecekler = Db.UserLesson.Where(x => x.UserID.Equals(model.ID) && !lessonsIDs.Contains(x.LessonID)).ToList();
 
                             Db.UserLesson.RemoveRange(silinecekler);
@@ -148,12 +152,19 @@ namespace QuestionBank.Controllers
                 }
 
             }
+            else
+            {
+                ViewBag.Message = $"<div class='alert alert-danger'><strong>Hata!</strong> Kullanıcının en az bir dersi olmalı... </div>";
+            }
             using (QuestionBankDbContext Db = new QuestionBankDbContext())
             {
+
                 ViewBag.Lessons = Db.Lesson.ToList();
                 ViewBag.UserLessons = Db.UserLesson.Select(x => x.LessonID).ToList<int>();
             }
+            //ViewBag.message = $"<div class='alert alert-danger'><strong>Başarısız!</strong> Kullanıcının en az bir dersi olmalı... </div>";
             return View(model);
+
         }
         [HttpPost]
         public string Delete(int ID)
@@ -167,7 +178,7 @@ namespace QuestionBank.Controllers
                 if (user != null)
                 {
 
-                    IEnumerable<UserLesson> userles = Db.UserLesson.RemoveRange(Db.UserLesson.Where(x => x.UserID == ID));
+                    IEnumerable<UserLesson> userles = Db.UserLesson.RemoveRange(Db.UserLesson.Where(x => x.LessonID == ID));
                     Db.User.Remove(user);
                     Db.SaveChanges();
                     message = JsonConvert.SerializeObject(new { durum = "OK", mesaj = "Kullanıcı Silindi" });

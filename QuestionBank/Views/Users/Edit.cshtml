@@ -67,9 +67,13 @@
 
                 <select id="lessonsIDs" name="lessonsIDs" class="form-control select2-multiple select2-hidden-accessible" multiple="" tabindex="-1" aria-hidden="true">
 
-                    @foreach (var item in ViewBag.Lessons)
+                    @if (ViewBag.Lessons!=null)
                     {
-                        <option @(ViewBag.UserLessons.IndexOf(item.ID) != -1 ? "selected" : "") value="@item.ID">@item.LessonName</option>
+                        foreach (var item in ViewBag.Lessons)
+                        {
+                            <option @(ViewBag.UserLessons.IndexOf(item.ID) != -1 ? "selected" : "") value="@item.ID">@item.LessonName</option>
+                        }
+
                     }
 
                 </select>

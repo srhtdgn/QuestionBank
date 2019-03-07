@@ -1,0 +1,120 @@
+﻿
+@{
+    ViewBag.Page = "Konu";
+    ViewBag.Title = "Konu Yönetimi";
+    ViewBag.Description = "Konu Yönetim Ekranı";
+
+}
+<div class="row">
+    <div class="col-md-6">
+        <div class="btn-group">
+            <button id="sample_editable_1_2_new22" class="btn btn-circle green" onclick="location.href='@Url.RouteUrl("AddTopic")'">
+                Yeni Konu Ekle
+                <i class="fa fa-plus"></i>
+            </button>
+        </div>
+    </div>
+</div>
+<br />
+<div class="portlet-body form">
+    <div class="form-group">
+        @if (ViewBag.UserLessons != null)
+        {
+            <div class="form-group">
+                <select id="UserListLessons" role="combobox" class="form-control select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+                    <option value="0">Ders Seçiniz</option>
+                    @foreach (var item in ViewBag.UserLessons)
+                    {
+                        <option value="@item.Lesson.ID">@item.Lesson.LessonName</option>
+                    }
+                </select>
+            </div>
+        }
+    </div>
+</div>
+<br />
+<div id="message"></div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-globe"></i>Konu Listesi
+                </div>
+                <div class="tools"> </div>
+            </div>
+            <div class="portlet-body">
+               
+                @if (ViewBag.lsttopic != null)
+                {
+                    <h1>  Yeni Konu Ekle</h1>
+                }
+                else
+                {
+                    <span>  null</span>
+
+               }
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+@section styles{
+    <link href="/Content/assets/global/plugins/datatables/datatables.min.css" rel="stylesheet" type="text/css" />
+    <link href="/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css" rel="stylesheet" type="text/css" />
+}
+
+
+@section scripts {
+    <script src="/Content/assets/global/scripts/datatable.min.js" type="text/javascript"></script>
+    <script src="/Content/assets/global/plugins/datatables/datatables.min.js" type="text/javascript"></script>
+    <script src="/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js" type="text/javascript"></script>
+    <script src="/Content/assets/pages/scripts/table-datatables-buttons.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#UserListLessons").change(function () {
+                var DersId = $("#UserListLessons option:selected").val();
+                $.ajax({
+                    type: "POST",
+                    url: "/Konular",
+                    dataType: "json",
+                    data: { LessonID: DersId },
+                    success: function (DersId) {
+                        result(DersId)
+                    }
+                });
+            });
+        });
+
+    </script>
+    <script>
+
+        function DeleteLesson(id) {
+            if (confirm("Kullanıcı Silinsin mi ?")) {
+                $.ajax({
+                    type: "POST",
+                    url: "KullaniciSil",
+                    data: { ID: id },
+                    success: function (data) {
+                        var result = JSON.parse(data);
+                        if (result.durum == "OK") {
+                            $("#tr_" + id).remove();
+                            $("#message").append("<div class='alert alert-info'><strong></strong>" + result.mesaj + " </div>")
+                        }
+                        else if (result.durum = "NO") {
+                            $("#message").append("<div class='alert alert-info'><strong></strong>" + result.mesaj + " </div>")
+                        }
+                    }
+                });
+            }
+        }
+    </script>
+
+}
