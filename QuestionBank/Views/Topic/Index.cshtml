@@ -1,4 +1,4 @@
-﻿
+﻿@model QuestionBank.Models.Topic
 @{
     ViewBag.Page = "Konu";
     ViewBag.Title = "Konu Yönetimi";
@@ -44,7 +44,7 @@
                 <div class="tools"> </div>
             </div>
             <div class="portlet-body">
-               
+            
                 @if (ViewBag.lsttopic != null)
                 {
                     <h1>  Yeni Konu Ekle</h1>

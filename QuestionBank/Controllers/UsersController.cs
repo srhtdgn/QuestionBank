@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿    using Newtonsoft.Json;
 using QuestionBank.Infrastructure;
 using QuestionBank.Models;
 
@@ -117,10 +117,7 @@ namespace QuestionBank.Controllers
                             //user.SurName = model.SurName;
                             //user.Password = model.Password;
                             user.Mail = model.Mail;
-                            user.IsItAdmin = model.IsItAdmin;
-
-                         
-                            
+                            user.IsItAdmin = model.IsItAdmin;                   
                                 foreach (int item in lessonsIDs)
                                 {
                                     UserLesson userLesson = Db.UserLesson.SingleOrDefault(x => x.LessonID.Equals(item) && x.UserID.Equals(model.ID));
@@ -129,10 +126,7 @@ namespace QuestionBank.Controllers
                                         Db.UserLesson.Add(new UserLesson() { LessonID = item, UserID = model.ID });
                                     }
                                 }
-
-                            
-                           
-                            List<UserLesson> silinecekler = Db.UserLesson.Where(x => x.UserID.Equals(model.ID) && !lessonsIDs.Contains(x.LessonID)).ToList();
+                    List<UserLesson> silinecekler = Db.UserLesson.Where(x => x.UserID.Equals(model.ID) && !lessonsIDs.Contains(x.LessonID)).ToList();
 
                             Db.UserLesson.RemoveRange(silinecekler);
                            
@@ -149,8 +143,9 @@ namespace QuestionBank.Controllers
                     {
                         ViewBag.Message = $"<div class='alert alert-danger'><strong>Hata!</strong> Bu mail zaten kullanılıyor... </div>";
                     }
+               
                 }
-
+ 
             }
             else
             {
@@ -158,9 +153,12 @@ namespace QuestionBank.Controllers
             }
             using (QuestionBankDbContext Db = new QuestionBankDbContext())
             {
+                User user = Db.User.SingleOrDefault(x => x.ID.Equals(model.ID));
 
+                ViewBag.UserLessons = user.UserLesson.Select(x => x.LessonID).ToList<int>();
                 ViewBag.Lessons = Db.Lesson.ToList();
-                ViewBag.UserLessons = Db.UserLesson.Select(x => x.LessonID).ToList<int>();
+
+               
             }
             //ViewBag.message = $"<div class='alert alert-danger'><strong>Başarısız!</strong> Kullanıcının en az bir dersi olmalı... </div>";
             return View(model);

@@ -15,9 +15,8 @@ namespace QuestionBank.Controllers
         // GET: Topic
         public ActionResult Index()
         {
-            PostUserLessons();
+            PostUserLessons();            
             return View();
-
 
         }
 
@@ -32,12 +31,13 @@ namespace QuestionBank.Controllers
             else
             {
                 PostUserLessons();
-                QuestionBankDbContext Db = new QuestionBankDbContext();
-            
+                QuestionBankDbContext Db = new QuestionBankDbContext();            
                 ViewBag.lsttopic = Db.Topic.Where(x => x.LessonID == LessonID).ToList();             
             }
             return View();
         }
+
+
         private void PostUserLessons()
         {
             QuestionBankDbContext Db = new QuestionBankDbContext();
@@ -46,6 +46,53 @@ namespace QuestionBank.Controllers
 
             ViewBag.UserLessons = Db.UserLesson.Where(x => x.UserID.Equals(user.ID)).ToList();
 
+        }
+
+
+        private void PostQuestionPeriod()
+        {
+            QuestionBankDbContext Db = new QuestionBankDbContext();
+            ViewBag.QuestionPeriod = Db.QuestionPeriod.ToList();
+        }
+
+
+        public ActionResult Add()
+        {
+            PostUserLessons();
+            PostQuestionPeriod();
+            return View();
+        }
+
+
+        [HttpPost]
+        public ActionResult Add(Topic model, int[] periods)
+        {
+            QuestionBankDbContext db = new QuestionBankDbContext();
+            if (ModelState.IsValid)
+            {
+                db.Topic.Add(model);
+                db.SaveChanges();
+
+                List<TopicQuestionPeriod> lst = new List<TopicQuestionPeriod>();
+                foreach (int item in periods)
+                {
+                    TopicQuestionPeriod konuSoruDonemi = new TopicQuestionPeriod
+                    {
+                        TopicID = model.ID,
+                        QuestionPeriodID = item
+                    };
+                    lst.Add(konuSoruDonemi);
+                }
+                db.TopicQuestionPeriod.AddRange(lst);
+                db.SaveChanges();
+                ViewBag.Message = $"<div class='alert alert-success'><strong>Başarılı!</strong> Konu Başarıyla Eklendi... </div>";
+                ModelState.Clear();
+            }
+
+            PostQuestionPeriod();
+           PostUserLessons();
+
+            return View(model);
         }
     }
 }
