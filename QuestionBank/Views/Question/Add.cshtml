@@ -1,0 +1,222 @@
+﻿@model IEnumerable<QuestionBank.Models.Lesson>
+@{
+    ViewBag.Page = "Sorular";
+    ViewBag.Title = "Soru Yönetimi";
+    ViewBag.Description = "Soru yönetim ekranı";
+}
+
+<h2>Yeni Soru Tanımlama</h2>
+<div class="row">
+    <div class="col-md-6">
+        <div class="btn-group">
+            <button class="btn btn-circle green" onclick="location.href='@Url.RouteUrl("Questions")'">
+                <i class="fa fa-arrow-left"></i>
+                Soru Listesi
+            </button>
+        </div>
+    </div>
+</div>
+
+<br />
+<div id="message"></div>
+
+<div class="portlet-body form">
+    <div class="form-horizontal">
+
+        <div class="form-group">
+            <label class="col-md-2 control-label">Ders Seçin</label>
+            <div class="col-md-10">
+                <select id="Ders" name="Ders" class="form-control">
+                    @foreach (var item in Model)
+                    {
+                        <option value="@item.ID">@item.LessonName</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2 control-label">Konu Seçin</label>
+            <div class="col-md-10">
+                <select id="Konu" name="konu" class="form-control">
+                    <option selected="selected" value="0">Konu Seçin</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2 control-label">Dönem Seçin</label>
+            <div class="col-md-10">
+                <select id="Donem" name="Donem" class="form-control">
+                    <option selected="selected" value="0">Dönem Seçin</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2 control-label">Soru Tipi Seçin</label>
+            <div class="col-md-10">
+                <select id="SoruTipi" name="Donem" class="form-control">
+                    <option selected="selected" value="0">Soru Tipi Seçin</option>
+                    <option value="1">Klasik</option>
+                    <option value="2">Test</option>
+                    <option value="3">Bosluk Doldurma</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2 control-label">Soru</label>
+            <div class="col-md-10">
+                <textarea name="Soru" id="soru" class="form-control" rows="3"></textarea>
+            </div>
+        </div>
+        @*<div class='col-md-offset-2 col-md-10'><div class='input-group'><span class='input-group-addon'><input type='radio' name='cevap'><span></span></span><div class='input-icon right'><i class='fa fa-close  sil' style='color:black'></i><i class='fa fa-mic'></i><input type='text' class='form-control  txtcevap'></div></div></div>*@
+        <div class="form-group">
+            <label class="col-md-2 control-label">Cevaplar</label>
+            <div class="col-md-10">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <input type="radio" name="cevap" checked>
+                        <span></span>
+                    </span>
+                    <i class="fa fa-mic"></i>
+                    <input type="text" class="form-control  txtcevap">
+
+                </div>
+            </div>
+            <label class="col-md-offset-2  control-label btn" id="CevapEkle">Yeni Cevap Ekle</label>
+        </div>
+        @*<div class="form-group">
+                <label class="col-md-2 control-label">Cevaplar</label>
+                <div class="col-md-10">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <input type="radio" name="cevap" checked>
+                            <span></span>
+                        </span><div class='input-icon right'>
+                            <i class='fa fa-close  sil' style='color:black'></i><i class='fa fa-mic'></i>
+                            <i class="fa fa-mic"></i>
+                            <input type="text" class="form-control  txtcevap">
+                        </div>
+                    </div>
+                </div>
+                <label class="col-md-offset-2  control-label btn" id="CevapEkle">Yeni Cevap Ekle</label>
+            </div>*@
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2  col-md-10">
+                <input type="button" value="Ekle" class="btn btn-circle green gonder" />
+            </div>
+        </div>
+
+    </div>
+</div>
+@section styles{
+    <link href="/Content/assets/global/plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+    <link href="/Content/assets/global/plugins/select2/css/select2-bootstrap.min.css" rel="stylesheet" type="text/css" />
+}
+
+@section scripts {
+    <script src="/Content/assets/global/plugins/select2/js/select2.full.min.js" type="text/javascript"></script>
+    <script src="/Content/assets/pages/scripts/components-select2.min.js" type="text/javascript"></script>
+
+    <script>
+        var result;
+        $(document).ready(function () {
+            $('#Ders').prepend($('<option>', {
+                value: 0,
+                text: 'Ders Seçiniz'
+            })).val("0");
+
+            $('#Ders').on('change', function () {
+                if (this.value != 0) {
+                    var id = this.value;
+                    $.ajax({
+                        type: "POST",
+                        url: "DersinKonulari",
+                        data: { ID: id },
+                        success: function (data) {
+                            result = JSON.parse(data);
+                            $('#Konu').empty().append('<option selected="selected" value="0">Konu Seçin</option>');
+                            $.each(result, function (i, item) {
+                                $('#Konu').append($('<option>', {
+                                    value: item.TopicID,
+                                    text: item.TopicName
+                                }));
+                            });
+                            $('#Donem').empty().append('<option selected="selected" value="0">Dönem Seçin</option>');
+                        }
+                    });
+                }
+            });
+
+            $('#Konu').on('change', function () {
+                var i = $(this).prop('selectedIndex') - 1;
+                $('#Donem').empty().append('<option selected="selected" value="0">Dönem Seçin</option>');
+                $.each(result[i].Period, function (i, item) {
+                    $('#Donem').append($('<option>', {
+                        value: item.PeriodID,
+                        text: item.PeriodName
+                    }));
+                });
+            });
+            var Cevapsayisi = 1;
+            $('#CevapEkle').click(function () {
+                if (Cevapsayisi < 5)
+                {
+                    $(this).prev().after("<div class='col-md-offset-2 col-md-10'><div class='input-group'><span class='input-group-addon'><input type='radio' name='cevap'><span></span></span><div class='input-icon right'><i class='fa fa-close  sil' style='color:black'></i><i class='fa fa-mic'></i><input type='text' class='form-control  txtcevap'></div></div></div>");
+                }
+                else
+                {
+                    alert("5 den fazla cevap ekleyemezsiniz");
+                }
+                Cevapsayisi++;
+            });
+
+            $('.sil').click(function () {
+                alert("Silmek için tıkladınız");
+            });
+
+
+            $('.gonder').click(function () {
+
+                var lst = [];
+                $.each($('.txtcevap'), function () {
+                    var obj = {
+                        Val: $($($(this).prev()[0]).children()[0]).prop('checked'),
+                        AnswerContent: $(this).val()
+                    };
+                    lst.push(obj);
+                });
+
+                var data = {
+                    TopicID: $('#Konu').val(),
+                    PeriodID: $('#Donem').val(),
+                    QuestionTypeID: $('#SoruTipi').val(),
+                    Question: $('#soru').val(),
+                    Answers: lst
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "SoruEkle2",
+                    data: JSON.stringify(data),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.durum == "OK") {
+                            $("#message").append("<div class='alert alert-info'><strong></strong>" + data.mesaj + " </div>")
+                        }
+                        else if (data.durum = "NO") {
+                            $("#message").append("<div class='alert alert-info'><strong></strong>" + data.mesaj + " </div>")
+                        }
+                    }
+                });
+            });
+        });
+
+    </script>
+
+}

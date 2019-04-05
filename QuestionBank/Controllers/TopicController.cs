@@ -15,7 +15,7 @@ namespace QuestionBank.Controllers
         // GET: Topic
         public ActionResult Index()
         {
-            PostUserLessons();            
+            PostUserLessons();
             return View();
 
         }
@@ -23,19 +23,23 @@ namespace QuestionBank.Controllers
         [HttpPost]
         public ActionResult Index(int LessonID)
         {
+            QuestionBankDbContext Db = new QuestionBankDbContext();
+            List<Topic> lsttopics = Db.Topic.ToList();
             if (LessonID == 0)
             {
                 PostUserLessons();
-                ViewBag.lsttopic = null;             
+                lsttopics = null;
+                return View();
             }
             else
             {
                 PostUserLessons();
-                QuestionBankDbContext Db = new QuestionBankDbContext();            
-                ViewBag.lsttopic = Db.Topic.Where(x => x.LessonID == LessonID).ToList();             
+
+                lsttopics = Db.Topic.Where(x => x.LessonID == LessonID).ToList();
+                return View(lsttopics);
             }
-            return View();
-        }
+           
+            }
 
 
         private void PostUserLessons()
@@ -90,7 +94,7 @@ namespace QuestionBank.Controllers
             }
 
             PostQuestionPeriod();
-           PostUserLessons();
+            PostUserLessons();
 
             return View(model);
         }
