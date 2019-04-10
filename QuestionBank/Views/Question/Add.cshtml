@@ -73,17 +73,19 @@
         </div>
         <div class="form-group">
             <label class="col-md-2 control-label">Cevaplar</label>
-            <div class="col-md-10">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <input type="radio" name="cevap" checked>
-                        <span></span>
-                    </span>
-                    <i class="fa fa-mic"></i>
-                    <input type="text" class="form-control  txtcevap">
+          <div class='col-md-10 deneme'><div class='input-group'><span class='input-group-addon'><input type='radio' name='cevap' checked></span><div class='input-icon right'><i class='fa fa-close' style='color:ghostwhite'></i><input type='text' class='form-control  txtcevap'></div></div></div>
 
-                </div>
+            @*<div class="col-md-10">
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <input type="radio" name="cevap" checked>
+                    <span></span>
+                </span>
+                <i class="fa fa-mic"></i>
+                <input type="text" class="form-control  txtcevap">
+
             </div>
+        </div>*@
             <label class="col-md-offset-2  control-label btn" id="CevapEkle">Yeni Cevap Ekle</label>
         </div>
        
@@ -156,8 +158,10 @@
                 if (Cevapsayisi < 5)
                 {
                     Cevapsayisi++;
-                    $(this).prev().after("<div class='col-md-offset-2 col-md-10 deneme' ><div class='input-group'><span class='input-group-addon'><input type='radio' name='cevap'><span></span></span><div class='input-icon right'><i class='fa fa-close  sil' style='color:black'></i><i class='fa fa-mic'></i><input type='text' class='form-control  txtcevap'></div></div></div>");
-                    $('txtcevap').val() == Cevapsayisi;
+                    $(this).prev().after("<div class='col-md-offset-2 col-md-10 deneme'><div class='input-group'><span class='input-group-addon'><input type='radio' name='cevap'></span><div class='input-icon right'><i class='fa fa-close sil' style='color:black'></i><input type='text' class='form-control  txtcevap'></div></div></div>");
+
+                   //$(this).prev().after("<div class='col-md-offset-2 col-md-10 deneme' ><div class='input-group'><span class='input-group-addon'><input type='radio' name='cevap'><span></span></span><div class='input-icon right'><i class='fa fa-close  sil' style='color:black'></i><i class='fa fa-mic'></i><input type='text' class='form-control  txtcevap'></div></div></div>");
+                  
                 }
                 else
                 {
@@ -180,7 +184,7 @@
                 var lst = [];
                 $.each($('.txtcevap'), function () {
                     var obj = {
-                        Val: $($($(this).prev()[0]).children()[0]).prop('checked'),
+                        Val: $($($(this).parent().prev()).children()).prop('checked'),
                         AnswerContent: $(this).val()
                     };
                     lst.push(obj);

@@ -15,14 +15,11 @@ namespace QuestionBank.Models.ViewModel
             
             
             question = Db.Question.Find(ID);
-            Topics = question.Topic.Lesson.Topic;
-            Periods = Db.QuestionPeriod.ToList();
+            Topics = question.Topic.Lesson.Topic;        
             Types = Db.QuestionType.ToList();
         }
         public IEnumerable<Lesson> Lessons { get; set; }
         public IEnumerable<Topic> Topics { get; set; }
-
-        public IEnumerable<QuestionPeriod> Periods { get; set; }
         public IEnumerable<QuestionType> Types { get; set; }
 
 

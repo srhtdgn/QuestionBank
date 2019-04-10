@@ -139,8 +139,7 @@ namespace QuestionBank.Controllers
                QuestionBankDbContext Db = new QuestionBankDbContext();
             Question questions = Db.Question.SingleOrDefault(x => x.ID.Equals(question.ID));
           
-            questions.TopicID = question.TopicID;
-            questions.QuestionPeriodID = question.QuestionPeriodID;
+            questions.TopicID = question.TopicID;      
             questions.QuestionTypeID = question.QuestionTypeID;
             questions.Question1 = question.Question1;
            

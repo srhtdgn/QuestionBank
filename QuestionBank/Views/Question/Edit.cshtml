@@ -41,13 +41,6 @@
             </div>
 
             <div class="form-group">
-                <label class="col-md-2 control-label">Dönem</label>
-                <div class="col-md-10">
-                    @Html.DropDownListFor(x => x.question.QuestionPeriodID, new SelectList(Model.Periods, "ID", "QuestionPeriodName"), new { @class = "form-control" })
-                </div>
-            </div>
-
-            <div class="form-group">
                 <label class="col-md-2 control-label">Soru Tipi</label>
                 <div class="col-md-10">
                     @Html.DropDownListFor(x => x.question.QuestionTypeID, new SelectList(Model.Types, "ID", "QuestionTypeName"), new { @class = "form-control" })
