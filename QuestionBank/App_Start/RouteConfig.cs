@@ -46,17 +46,20 @@ namespace QuestionBank
             #region Question
             routes.MapRoute(name: "Questions", url: "Sorular", defaults: new { controller = "Question", action = "Index" });
             routes.MapRoute(name: "AddQuestion", url: "SoruEkle", defaults: new { controller = "Question", action = "Add" });
-            //routes.MapRoute(name: "EditQuestion", url: "SoruDuzenle/{ID}", defaults: new { controller = "Question", action = "Edit" });
+            routes.MapRoute(name: "EditQuestion", url: "SoruDuzenle/{ID}", defaults: new { controller = "Question", action = "Edit" });
             routes.MapRoute(name: "DeleteQuestion", url: "SoruSil", defaults: new { controller = "Question", action = "Delete" });
-
+            
             routes.MapRoute(name: "GetLessonsTopic", url: "DersinKonulari", defaults: new { controller = "Question", action = "GetLessonsTopic" });
             routes.MapRoute(name: "AddQuestionWithAjax", url: "SoruEkle2", defaults: new { controller = "Question", action = "AddQuestion" });
+            routes.MapRoute(name: "EditQuestionWithAjax", url: "SoruGuncelle2", defaults: new { controller = "Question", action = "EditQuestion" });
+
 
             #endregion
-
+          
 
             routes.MapRoute(name: "ExamPrepare", url: "SinavHazirla", defaults: new { controller = "Exam", action = "Prepare" });
             routes.MapRoute(name: "ExamShow", url: "SinavGoster", defaults: new { controller = "Exam", action = "Show" });
+            routes.MapRoute(name: "Default", url: "{controller}/{action}/{id}", defaults: new { controller = "Home", action = "Index" ,id=UrlParameter.Optional});
 
         }
     }

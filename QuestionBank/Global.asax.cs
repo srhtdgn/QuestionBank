@@ -13,6 +13,7 @@ namespace QuestionBank
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+            GlobalFilters.Filters.Add(new HandleErrorAttribute());
         }
     }
 }

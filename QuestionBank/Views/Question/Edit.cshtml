@@ -1,11 +1,11 @@
-﻿@model IEnumerable<QuestionBank.Models.Lesson>
+﻿@model QuestionBank.Models.ViewModel.QuestionEditViewModel
 @{
     ViewBag.Page = "Sorular";
     ViewBag.Title = "Soru Yönetimi";
-    ViewBag.Description = "Soru Ekleme ekranı";
+    ViewBag.Description = "Soru Güncelleme ekranı";
 }
 
-<h2>Yeni Soru Tanımlama</h2>
+<h2>Soru Güncelleme</h2>
 <div class="row">
     <div class="col-md-6">
         <div class="btn-group">
@@ -21,81 +21,73 @@
 <div id="message"></div>
 
 <div class="portlet-body form">
-    <div class="form-horizontal">
+    @using (Html.BeginForm("Edit", "Question", FormMethod.Post))
+    {
+        <div class="form-horizontal">
 
-        <div class="form-group">
-            <label class="col-md-2 control-label">Ders Seçin</label>
-            <div class="col-md-10">
-                <select id="Ders" name="Ders" class="form-control">
-                    @foreach (var item in Model)
-                    {
-                        <option value="@item.ID">@item.LessonName</option>
-                    }
-                </select>
+            <div class="form-group">
+                <label class="col-md-2 control-label">Dersin Adı</label>
+                <div class="col-md-10">
+                   @*// @Html.DropDownListFor(x => x.question.Topic.LessonID, new SelectList(Model.Lessons, "ID", "LessonName"), new { @class = "form-control ", disabled = "disabled" })*@
+                    @Html.TextBoxFor(x=>x.question.Topic.Lesson.LessonName, new { @class = "form-control ", @readonly="true" })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <label class="col-md-2 control-label">Konu Seçin</label>
-            <div class="col-md-10">
-                <select id="Konu" name="konu" class="form-control">
-                    <option selected="selected" value="0">Konu Seçin</option>
-                </select>
+            <div class="form-group">
+                <label class="col-md-2 control-label">Konu</label>
+                <div class="col-md-10">
+                    @Html.DropDownListFor(x => x.question.TopicID, new SelectList(Model.Topics, "ID", "TopicName"), new { @class = "form-control" })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <label class="col-md-2 control-label">Dönem Seçin</label>
-            <div class="col-md-10">
-                <select id="Donem" name="Donem" class="form-control">
-                    <option selected="selected" value="0">Dönem Seçin</option>
-                </select>
+            <div class="form-group">
+                <label class="col-md-2 control-label">Dönem</label>
+                <div class="col-md-10">
+                    @Html.DropDownListFor(x => x.question.QuestionPeriodID, new SelectList(Model.Periods, "ID", "QuestionPeriodName"), new { @class = "form-control" })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <label class="col-md-2 control-label">Soru Tipi Seçin</label>
-            <div class="col-md-10">
-                <select id="SoruTipi" name="Donem" class="form-control">
-                    <option selected="selected" value="0">Soru Tipi Seçin</option>
-                    <option value="1">Klasik</option>
-                    <option value="2">Test</option>
-                    <option value="3">Bosluk Doldurma</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="col-md-2 control-label">Soru</label>
-            <div class="col-md-10">
-                <textarea name="Soru" id="soru" class="form-control" rows="3"></textarea>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-md-2 control-label">Cevaplar</label>
-            <div class="col-md-10">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <input type="radio" name="cevap" checked>
-                        <span></span>
-                    </span>
-                    <i class="fa fa-mic"></i>
-                    <input type="text" class="form-control  txtcevap">
+            <div class="form-group">
+                <label class="col-md-2 control-label">Soru Tipi</label>
+                <div class="col-md-10">
+                    @Html.DropDownListFor(x => x.question.QuestionTypeID, new SelectList(Model.Types, "ID", "QuestionTypeName"), new { @class = "form-control" })
 
                 </div>
             </div>
-            <label class="col-md-offset-2  control-label btn" id="CevapEkle">Yeni Cevap Ekle</label>
-        </div>
-       
 
-
-        <div class="form-group">
-            <div class="col-md-offset-2  col-md-10">
-                <input type="button" value="Ekle" class="btn btn-circle green gonder" />
+            <div class="form-group">
+                <label class="col-md-2 control-label">Soru</label>
+                <div class="col-md-10">
+                    @Html.TextAreaFor(x=>x.question.Question1, new { @class = "form-control" })
+                    @*<textarea name="Soru" id="soru" class="form-control" rows="3">@Model.question.Question1</textarea>*@
+                </div>
             </div>
-        </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label">Cevaplar</label>
+                <div class="col-md-10">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <input type="radio" name="cevap" checked>
+                            <span></span>
+                        </span>
+                        <i class="fa fa-mic"></i>
+                        <input type="text" value="" class="form-control  txtcevap">
 
-    </div>
+                    </div>
+                </div>
+                <label class="col-md-offset-2  control-label btn" id="CevapEkle">Yeni Cevap Ekle</label>
+            </div>
+
+            @Html.HiddenFor(x => x.question.ID)
+
+            <div class="form-group">
+                <div class="col-md-offset-2  col-md-10">
+                    <input type="submit" value="Güncelle" class="btn btn-circle green" />
+                </div>
+            </div>
+
+        </div>
+    }
 </div>
 @section styles{
     <link href="/Content/assets/global/plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
@@ -105,7 +97,6 @@
 @section scripts {
     <script src="/Content/assets/global/plugins/select2/js/select2.full.min.js" type="text/javascript"></script>
     <script src="/Content/assets/pages/scripts/components-select2.min.js" type="text/javascript"></script>
-
     <script>
         var result;
         $(document).ready(function () {
@@ -153,27 +144,25 @@
             var Cevapsayisi = 1;
 
             $('#CevapEkle').click(function () {
-                if (Cevapsayisi < 5)
-                {
+                if (Cevapsayisi < 5) {
                     Cevapsayisi++;
                     $(this).prev().after("<div class='col-md-offset-2 col-md-10 deneme' ><div class='input-group'><span class='input-group-addon'><input type='radio' name='cevap'><span></span></span><div class='input-icon right'><i class='fa fa-close  sil' style='color:black'></i><i class='fa fa-mic'></i><input type='text' class='form-control  txtcevap'></div></div></div>");
                     $('txtcevap').val() == Cevapsayisi;
                 }
-                else
-                {
+                else {
                     alert("5 den fazla cevap ekleyemezsiniz");
                 }
-              
-              
+
+
             });
-         
+
             $(document).on("click", ".sil", function () {
-               
+
                 $(this).parents('div').remove('.deneme');
                 Cevapsayisi--;
-                
+
             });
-          
+
 
             $('.gonder').click(function () {
 
@@ -213,5 +202,35 @@
         });
 
     </script>
+    @*<script>
+            var result;
+            $(document).ready(function () {
+
+                var Cevapsayisi = 1;
+
+                $('#CevapEkle').click(function () {
+                    if (Cevapsayisi < 5) {
+                        Cevapsayisi++;
+                        $(this).prev().after("<div class='col-md-offset-2 col-md-10 deneme' ><div class='input-group'><span class='input-group-addon'><input type='radio' name='cevap'><span></span></span><div class='input-icon right'><i class='fa fa-close  sil' style='color:black'></i><i class='fa fa-mic'></i><input type='text' class='form-control  txtcevap'></div></div></div>");
+                        $('txtcevap').val() == Cevapsayisi;
+                    }
+                    else {
+                        alert("5 den fazla cevap ekleyemezsiniz");
+                    }
+
+
+                });
+
+                $(document).on("click", ".sil", function () {
+
+                    $(this).parents('div').remove('.deneme');
+                    Cevapsayisi--;
+
+                });
+
+
+            });
+
+        </script>*@
 
 }

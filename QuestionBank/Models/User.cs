@@ -65,5 +65,6 @@ namespace QuestionBank.Models
         [NotMapped]
         [Compare("NewPassword")]
         public string NewPasswordAgain { get; set; }
+        public static object Identity { get; internal set; }
     }
 }

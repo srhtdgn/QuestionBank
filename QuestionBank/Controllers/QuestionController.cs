@@ -14,9 +14,11 @@ namespace QuestionBank.Controllers
     public class QuestionController : BaseController
     {
         // GET: Question
+  
         [SelectedTab("Questions")]
         public ActionResult Index()
         {
+       
             QuestionBankDbContext Db = new QuestionBankDbContext();
             List<Question> questions = Db.Question.ToList();
             User user = Db.User.SingleOrDefault(x => x.UserName.Equals(User.Identity.Name));
@@ -28,11 +30,11 @@ namespace QuestionBank.Controllers
         {
             QuestionBankDbContext Db = new QuestionBankDbContext();
             List<Lesson> lst = Db.Lesson.ToList();
-           
-                int[] userLessons = Db.UserLesson.Where(x => x.User.UserName.Equals(User.Identity.Name)).Select(x => x.LessonID).ToArray();
 
-                lst = Db.Lesson.Where(x => userLessons.Contains(x.ID)).ToList();
-           
+            int[] userLessons = Db.UserLesson.Where(x => x.User.UserName.Equals(User.Identity.Name)).Select(x => x.LessonID).ToArray();
+
+            lst = Db.Lesson.Where(x => userLessons.Contains(x.ID)).ToList();
+
             return View(lst);
         }
 
@@ -57,10 +59,10 @@ namespace QuestionBank.Controllers
                     model.Period.Add(periodJson);
                 }
                 jsonLst.Add(model);
-               
+
             }
             return JsonConvert.SerializeObject(jsonLst);
-           
+
         }
 
 
@@ -116,6 +118,34 @@ namespace QuestionBank.Controllers
             Db.SaveChanges();
 
             return JsonConvert.SerializeObject(new { durum = "OK", mesaj = "Soru başarıyla eklendi" });
+        }
+        public ActionResult Edit(int ID)
+        {
+            
+
+           
+
+            var model = new QuestionEditViewModel(ID);
+
+            
+
+            return View(model);
+        }
+  
+     
+        [HttpPost]
+        public ActionResult Edit(Question question)
+        {
+               QuestionBankDbContext Db = new QuestionBankDbContext();
+            Question questions = Db.Question.SingleOrDefault(x => x.ID.Equals(question.ID));
+          
+            questions.TopicID = question.TopicID;
+            questions.QuestionPeriodID = question.QuestionPeriodID;
+            questions.QuestionTypeID = question.QuestionTypeID;
+            questions.Question1 = question.Question1;
+           
+            Db.SaveChanges();
+            return RedirectToRoute("Questions");
         }
     }
 }
