@@ -245,9 +245,9 @@
     <Compile Include="Models\TopicQuestionPeriod.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserLesson.cs" />
+    <Compile Include="Models\ViewModel\QuestionEditViewModel.cs" />
     <Compile Include="Models\ViewModel\QuestionAddJsonModel.cs" />
     <Compile Include="Models\ViewModel\QuestionAddViewModel.cs" />
-    <Compile Include="Models\ViewModel\QuestionEditViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

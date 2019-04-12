@@ -4,6 +4,7 @@ using QuestionBank.Models;
 using QuestionBank.Models.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -14,11 +15,11 @@ namespace QuestionBank.Controllers
     public class QuestionController : BaseController
     {
         // GET: Question
-  
+
         [SelectedTab("Questions")]
         public ActionResult Index()
         {
-       
+
             QuestionBankDbContext Db = new QuestionBankDbContext();
             List<Question> questions = Db.Question.ToList();
             User user = Db.User.SingleOrDefault(x => x.UserName.Equals(User.Identity.Name));
@@ -121,30 +122,38 @@ namespace QuestionBank.Controllers
         }
         public ActionResult Edit(int ID)
         {
-            
-
-           
 
             var model = new QuestionEditViewModel(ID);
 
-            
-
             return View(model);
         }
-  
-     
+
+
         [HttpPost]
         public ActionResult Edit(Question question)
-        {
-               QuestionBankDbContext Db = new QuestionBankDbContext();
+            {
+            QuestionBankDbContext Db = new QuestionBankDbContext();
             Question questions = Db.Question.SingleOrDefault(x => x.ID.Equals(question.ID));
-          
-            questions.TopicID = question.TopicID;      
+
+            questions.TopicID =question.TopicID;
             questions.QuestionTypeID = question.QuestionTypeID;
             questions.Question1 = question.Question1;
-           
+            //if (answers != null)
+            //{
+            //    List<Answers> Silinecekler = Db.Answers.Where(x => x.QuestionID.Equals(question.ID)).ToList();
+            //    Db.Answers.RemoveRange(Silinecekler);
+            //    foreach (var item in answers)
+            //    {
+
+            //        Db.Answers.Add(new Answers() { Answer = item.ToString(), QuestionID = question.ID });
+
+            //    }
+            //}
+
+
             Db.SaveChanges();
             return RedirectToRoute("Questions");
         }
+    
     }
 }

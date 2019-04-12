@@ -53,9 +53,8 @@ namespace QuestionBank
             routes.MapRoute(name: "AddQuestionWithAjax", url: "SoruEkle2", defaults: new { controller = "Question", action = "AddQuestion" });
             routes.MapRoute(name: "EditQuestionWithAjax", url: "SoruGuncelle2", defaults: new { controller = "Question", action = "EditQuestion" });
 
-
             #endregion
-          
+
 
             routes.MapRoute(name: "ExamPrepare", url: "SinavHazirla", defaults: new { controller = "Exam", action = "Prepare" });
             routes.MapRoute(name: "ExamShow", url: "SinavGoster", defaults: new { controller = "Exam", action = "Show" });

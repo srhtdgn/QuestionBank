@@ -73,22 +73,21 @@
         </div>
         <div class="form-group">
             <label class="col-md-2 control-label">Cevaplar</label>
-          <div class='col-md-10 deneme'><div class='input-group'><span class='input-group-addon'><input type='radio' name='cevap' checked></span><div class='input-icon right'><i class='fa fa-close' style='color:ghostwhite'></i><input type='text' class='form-control  txtcevap'></div></div></div>
-
-            @*<div class="col-md-10">
-            <div class="input-group">
-                <span class="input-group-addon">
-                    <input type="radio" name="cevap" checked>
-                    <span></span>
-                </span>
-                <i class="fa fa-mic"></i>
-                <input type="text" class="form-control  txtcevap">
-
+            <div class='col-md-10 deneme'>
+                <div class='input-group'>
+                    <span class='input-group-addon'>
+                        <input type='radio' name='cevap' checked>
+                    </span><div class='input-icon right'>
+                        <i class='fa fa-close' style='color:ghostwhite'></i>
+                        <input type='text' class='form-control  txtcevap'>
+                    </div>
+                </div>
             </div>
-        </div>*@
+
+
             <label class="col-md-offset-2  control-label btn" id="CevapEkle">Yeni Cevap Ekle</label>
         </div>
-       
+
 
 
         <div class="form-group">
@@ -155,29 +154,27 @@
             var Cevapsayisi = 1;
 
             $('#CevapEkle').click(function () {
-                if (Cevapsayisi < 5)
-                {
+                if (Cevapsayisi < 5) {
                     Cevapsayisi++;
                     $(this).prev().after("<div class='col-md-offset-2 col-md-10 deneme'><div class='input-group'><span class='input-group-addon'><input type='radio' name='cevap'></span><div class='input-icon right'><i class='fa fa-close sil' style='color:black'></i><input type='text' class='form-control  txtcevap'></div></div></div>");
 
-                   //$(this).prev().after("<div class='col-md-offset-2 col-md-10 deneme' ><div class='input-group'><span class='input-group-addon'><input type='radio' name='cevap'><span></span></span><div class='input-icon right'><i class='fa fa-close  sil' style='color:black'></i><i class='fa fa-mic'></i><input type='text' class='form-control  txtcevap'></div></div></div>");
-                  
+                    //$(this).prev().after("<div class='col-md-offset-2 col-md-10 deneme' ><div class='input-group'><span class='input-group-addon'><input type='radio' name='cevap'><span></span></span><div class='input-icon right'><i class='fa fa-close  sil' style='color:black'></i><i class='fa fa-mic'></i><input type='text' class='form-control  txtcevap'></div></div></div>");
+
                 }
-                else
-                {
+                else {
                     alert("5 den fazla cevap ekleyemezsiniz");
                 }
-              
-              
+
+
             });
-         
+
             $(document).on("click", ".sil", function () {
-               
+
                 $(this).parents('div').remove('.deneme');
                 Cevapsayisi--;
-                
+
             });
-          
+
 
             $('.gonder').click(function () {
 
