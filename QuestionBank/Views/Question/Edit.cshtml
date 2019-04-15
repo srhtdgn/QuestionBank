@@ -30,6 +30,8 @@
                 <div class="col-md-10">
                     @*// @Html.DropDownListFor(x => x.question.Topic.LessonID, new SelectList(Model.Lessons, "ID", "LessonName"), new { @class = "form-control ", disabled = "disabled" })*@
                     @Html.TextBoxFor(x => x.question.Topic.Lesson.LessonName, new { @class = "form-control ", @readonly = "true" })
+
+                  
                 </div>
             </div>
 
@@ -62,33 +64,13 @@
                 {
                     if (item.IsItTrue)
                     {
-                       
-                        <div class='col-md-10 deneme'>
-                            <div class='input-group'>
-                                <span class='input-group-addon'>
-                                    <input type='radio' name='cevap' checked>
-                                </span><div class='input-icon right'>
-                                    <i class='fa fa-close' style='color:ghostwhite'></i>
-                                    <input type="text" value="@item.Answer"  class="form-control txtcevap">
-                                </div>
-                            </div>
-                        </div>
+                        <div class='col-md-offset-2 col-md-10 divcevap'><div class='input-group'><span class='input-group-addon'><input type='radio' class="RadioCevap" name="RadioCevap" checked><span></span></span><div class='input-icon right'><i class='fa fa-close  sil' style='color:ghostwhite'></i><i class='fa fa-mic'></i><input type='text' name="txtdogrucevap" value="@item.Answer" class='form-control  txtcevap'></div></div></div>
+
                     }
                     else
                     {
 
-                    
-                        <div class='col-md-10 col-md-offset-2 divcevap'>
-                            <div class='input-group'>
-                                <span class='input-group-addon'>
-                                    <input type='radio' name='cevap'>
-                                </span><div class='input-icon right'>
-                                    <i class='fa fa-close' style='color:ghostwhite'></i>
-                                    <input type="text" value="@item.Answer" class="form-control  txtcevap">
-                                </div>
-                            </div>
-                        </div>
-
+                        <div class='col-md-offset-2 col-md-10 divcevap'><div class='input-group'><span class='input-group-addon'><input type='radio' class="RadioCevap" name="RadioCevap"><span></span></span><div class='input-icon right'><i class='fa fa-close  sil' style='color:black'></i><i class='fa fa-mic'></i><input type='text' name="txtyanliscevap" value="@item.Answer" class='form-control  txtcevap'></div></div></div>
                     }
 
                 }
@@ -99,7 +81,7 @@
 
             <div class="form-group">
                 <div class="col-md-offset-2  col-md-10">
-                    <input type="submit" value="Güncelle" class="btn btn-circle green" />
+                    <input type="submit" value="Güncelle" class="btn btn-circle green gonder"/>
                 </div>
             </div>
 
@@ -124,7 +106,7 @@
             $('#CevapEkle').click(function () {
                 if (Cevapsayisi < 5) {
                     Cevapsayisi++;
-                    $(this).prev().after("<div class='col-md-offset-2 col-md-10 divcevap' ><div class='input-group'><span class='input-group-addon'><input type='radio' name='cevap'><span></span></span><div class='input-icon right'><i class='fa fa-close  sil' style='color:black'></i><i class='fa fa-mic'></i><input type='text' class='form-control  txtcevap'></div></div></div>");
+                    $(this).prev().after("<div class='col-md-offset-2 col-md-10 divcevap' ><div class='input-group'><span class='input-group-addon'><input type='radio'class='RadioCevap' name='RadioCevap'><span></span></span><div class='input-icon right'><i class='fa fa-close  sil' style='color:black'></i><i class='fa fa-mic'></i><input name='txtyanliscevap' type='text' class='form-control  txtcevap'></div></div></div>");
 
                 }
                 else {
@@ -140,8 +122,20 @@
                 Cevapsayisi--;
 
             });
-         
+            $('.RadioCevap').click(function () {
+                $.each($('.txtcevap'), function () {
+                    if ($($($(this).parent().prev()).children()).prop('checked')) {
+                        $(this).attr('name', 'txtdogrucevap');
+                    }
+                    else {
+                        $(this).attr('name', 'txtyanliscevap');
+                    }
+                       
+                    });
+            });
+  
 
+        });
           
 
 

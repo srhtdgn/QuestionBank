@@ -130,30 +130,34 @@ namespace QuestionBank.Controllers
 
 
         [HttpPost]
-        public ActionResult Edit(Question question)
-            {
+        public ActionResult Edit(Question question, string txtdogrucevap, string[] txtyanliscevap)
+        {
+
+
             QuestionBankDbContext Db = new QuestionBankDbContext();
             Question questions = Db.Question.SingleOrDefault(x => x.ID.Equals(question.ID));
 
-            questions.TopicID =question.TopicID;
+            questions.TopicID = question.TopicID;
             questions.QuestionTypeID = question.QuestionTypeID;
             questions.Question1 = question.Question1;
-            //if (answers != null)
-            //{
-            //    List<Answers> Silinecekler = Db.Answers.Where(x => x.QuestionID.Equals(question.ID)).ToList();
-            //    Db.Answers.RemoveRange(Silinecekler);
-            //    foreach (var item in answers)
-            //    {
 
-            //        Db.Answers.Add(new Answers() { Answer = item.ToString(), QuestionID = question.ID });
+            List<Answers> Silinecekler = Db.Answers.Where(x => x.QuestionID.Equals(question.ID)).ToList();
+            Db.Answers.RemoveRange(Silinecekler);
+            Db.Answers.Add(new Answers() { Answer = txtdogrucevap, QuestionID = question.ID, IsItTrue = true });
+            if (txtyanliscevap != null)
+            {
+                foreach (var item in txtyanliscevap)
+                {
 
-            //    }
-            //}
+                    Db.Answers.Add(new Answers() { Answer = item.ToString(), QuestionID = question.ID });
+
+                }
+            }
 
 
             Db.SaveChanges();
             return RedirectToRoute("Questions");
         }
-    
+
     }
 }
