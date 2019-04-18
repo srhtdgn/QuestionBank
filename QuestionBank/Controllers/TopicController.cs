@@ -29,7 +29,7 @@ namespace QuestionBank.Controllers
             {
                 PostUserLessons();
                 lsttopics = null;
-                return View();
+                return View(lsttopics);
             }
             else
             {
