@@ -1,4 +1,4 @@
-﻿@model IEnumerable<QuestionBank.Models.Topic>
+﻿@model IEnumerable<QuestionBank.Models.UserLesson>
 @{
     /**/
 
@@ -17,76 +17,32 @@
     </div>
 </div>
 <br />
-<div class="portlet-body form">
-    <div class="form-group">
-        @if (ViewBag.UserLessons != null)
+<table class="table table-bordered" >
+    <thead>
+        <tr>
+            <th>Ders No</th>
+            <th>Ders Adı</th>
+            <th>Konuları Göster</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
         {
-            <div class="form-group">
-                <select id="UserListLessons" role="combobox" class="form-control select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true">
-                    <option value="0">Ders Seçiniz</option>
-                    @foreach (var item in ViewBag.UserLessons)
-                    {
-                        <option value="@item.Lesson.ID">@item.Lesson.LessonName</option>
-                    }
-                </select>
-            </div>
+            <tr id="tr_@item.ID">
+                <td>@item.Lesson.ID</td>
+                <td>
+                    @item.Lesson.LessonName
+                </td>
+                <td>
+                   @Ajax.ActionLink("Konuları Göster", "LessonTopicsList", "Topic", new { LessonID= item.Lesson.ID },new AjaxOptions { HttpMethod="GET",UpdateTargetId= "DersKonulari" },new { @class = "btn green btn-info btn-circle" })
+                   
+                </td>
+            </tr>
         }
-    </div>
-</div>
-<br />
-<div>
-    @if (Model ==null)
-    {
-    @Html.Label("asda");
 
-
-    }
-
-</div>
-
-@*<div class="row">
-        <div class="col-md-12">
-            <div class="portlet box green">
-                <div class="portlet-title">
-                    <div class="caption">
-                        <i class="fa fa-globe"></i>Ders Listesi
-                    </div>
-                    <div class="tools"> </div>
-                </div>
-                <div class="portlet-body">
-                    <table aling="Center" class="table table-striped table-bordered table-hover " id="list">
-                        <thead>
-                            <tr>
-                                <th>
-                                    Konu Adı
-                                </th>
-                                <th>İşlemler</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
-                                <tr id="tr_@item.ID">
-                                    <td>
-                                        @item.TopicName
-                                    </td>
-                                    <td>
-                                        @Html.RouteLink("Düzenle", "EditLesson", new { id = item.ID }, new { @class = "btn btn-outline btn-circle dark btn-sm purple fa fa-edit" }) |
-                                        <a href="#" class="btn btn-outline btn-circle dark btn-sm red" onclick="DeleteLesson(@item.ID)">Sil</a>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-
-
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>*@
-
-
+    </tbody>
+</table>
+<div id="DersKonulari"></div>
 
 
 @section styles{
@@ -100,31 +56,14 @@
     <script src="/Content/assets/global/plugins/datatables/datatables.min.js" type="text/javascript"></script>
     <script src="/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js" type="text/javascript"></script>
     <script src="/Content/assets/pages/scripts/table-datatables-buttons.js" type="text/javascript"></script>
-    <script type="text/javascript">
 
-        $(document).ready(function () {
-            $("#UserListLessons").change(function () {
-                var DersId = $("#UserListLessons option:selected").val();
-                $.ajax({
-                    type: "POST",
-                    url: "/Konular",
-                    dataType: "json",
-                    data: { LessonID: DersId },
-                    success: function (DersId) {
-                        result(DersId)
-                    }
-                });
-            });
-        });
-
-    </script>
     <script>
 
-        function DeleteLesson(id) {
-            if (confirm("Kullanıcı Silinsin mi ?")) {
+        function DeleteTopic(id) {
+            if (confirm("Konu Silinsin mi ?")) {
                 $.ajax({
                     type: "POST",
-                    url: "KullaniciSil",
+                    url: "KonuSil",
                     data: { ID: id },
                     success: function (data) {
                         var result = JSON.parse(data);
@@ -140,5 +79,4 @@
             }
         }
     </script>
-
 }

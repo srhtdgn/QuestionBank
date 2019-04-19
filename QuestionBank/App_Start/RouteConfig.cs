@@ -40,7 +40,9 @@ namespace QuestionBank
             routes.MapRoute(name: "AddTopic", url: "KonuEkle", defaults: new { controller = "Topic", action = "Add" });
             routes.MapRoute(name: "EditTopic", url: "KonuDuzenle/{ID}", defaults: new { controller = "Topic", action = "Edit" });
             routes.MapRoute(name: "DeleteTopic", url: "KonuSil", defaults: new { controller = "Topic", action = "Delete" });
-            routes.MapRoute(name: "TopicDersKonulari", url: "DersKonulari", defaults: new { controller = "Topic", action = "DersKonulari" });
+            //routes.MapRoute(name: "TopicDersKonulari", url: "DersKonulari", defaults: new { controller = "Topic", action = "DersKonulari" });
+            routes.MapRoute(name: "LessonTopics", url: "DersKonulari", defaults: new { controller = "Topic", action = "LessonTopicsList" });
+
             #endregion
 
             #region Question

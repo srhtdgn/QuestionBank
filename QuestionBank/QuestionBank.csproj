@@ -211,6 +211,11 @@
     <Content Include="Content\assets\pages\scripts\profile.min.js" />
     <Content Include="Content\assets\pages\scripts\table-datatables-buttons.js" />
     <Content Include="Global.asax" />
+    <None Include="Scripts\jquery-1.8.0.intellisense.js" />
+    <Content Include="Scripts\jquery-1.8.0.js" />
+    <Content Include="Scripts\jquery-1.8.0.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Uploads\no_image.png" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -281,6 +286,7 @@
     <Content Include="Views\Question\Edit.cshtml" />
     <Content Include="Views\Error\NotFound.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Topic\LessonTopicsList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
