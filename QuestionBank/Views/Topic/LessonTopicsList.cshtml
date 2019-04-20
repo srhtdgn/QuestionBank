@@ -9,7 +9,7 @@
                 <div class="tools"> </div>
             </div>
             <div class="portlet-body">
-                <table aling="Center" class="table table-striped table-bordered table-hover" id="list">
+                <table aling="Center" class="table table-striped table-bordered table-advance table-hover ">
                     <thead>
                         <tr>
                             <th>Konu Adı</th>
@@ -20,25 +20,29 @@
                     </thead>
 
                     <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr id="tr_@item.ID">
-                                <td>@item.TopicName</td>
-                                <td>
-                                    @foreach (var period in item.TopicQuestionPeriod)
-                                    {
-                                        <span class="btn dark btn-outline btn-circle btn-sm">@(period.QuestionPeriod.QuestionPeriodName) </span>
+                    
+                            @foreach (var item in Model)
+                            {
+                                <tr id="tr_@item.ID">
+                                    <td>@item.TopicName</td>
+                                    <td>
+                                        @foreach (var period in item.TopicQuestionPeriod)
+                                        {
+                                            <span class="btn dark btn-outline btn-circle btn-sm">@(period.QuestionPeriod.QuestionPeriodName) </span>
 
-                                    }
+                                        }
 
-                                </td>
+                                    </td>
 
-                                <td>
-                                    @Html.RouteLink("Düzenle", "EditTopic", new { id = item.ID }, new { @class = "btn btn-outline btn-circle dark btn-sm purple fa fa-edit" }) |
-                                    <a href="#" class="btn btn-outline btn-circle dark btn-sm red" onclick="DeleteTopic(@item.ID)">Sil</a>
-                                </td>
-                            </tr>
-                        }
+                                    <td>
+                                        @Html.RouteLink("Düzenle", "EditTopic", new { id = item.ID }, new { @class = "btn btn-outline btn-circle dark btn-sm purple fa fa-edit" }) |
+                                        <a href="#" class="btn btn-outline btn-circle dark btn-sm red" onclick="DeleteTopic(@item.ID)">Sil</a>
+                                    </td>
+                                </tr>
+                            }
+
+                        
+                     
                     </tbody>
 
 

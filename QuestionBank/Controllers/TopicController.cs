@@ -16,9 +16,9 @@ namespace QuestionBank.Controllers
         // GET: Topic
         public ActionResult Index()
         {
-            List<UserLesson> ders;
+
             QuestionBankDbContext db = new QuestionBankDbContext();
-            ders = db.UserLesson.Where(x => x.User.UserName.Equals(User.Identity.Name)).ToList();
+            List<UserLesson> ders = db.UserLesson.Where(x => x.User.UserName.Equals(User.Identity.Name)).ToList();
             return View(ders);
 
         }
@@ -97,16 +97,16 @@ namespace QuestionBank.Controllers
             {
 
                 lsttopics = null;
-                return PartialView(lsttopics);
+
             }
             else
             {
 
 
                 lsttopics = Db.Topic.Where(x => x.LessonID == LessonID).ToList();
-                return PartialView(lsttopics);
-            }
 
+            }
+            return PartialView(lsttopics);
         }
 
         [HttpPost]
@@ -138,13 +138,14 @@ namespace QuestionBank.Controllers
             var model = new TopicEditViewModel(ID);
             PostQuestionPeriod();
             return View(model);
-           
+
 
         }
         [HttpPost]
-        public ActionResult Edit(Topic topic,int[] periods)
+        public ActionResult Edit(Topic topic, int[] periods)
         {
-            if(ModelState.IsValid && periods != null){
+            if (ModelState.IsValid && periods != null)
+            {
                 QuestionBankDbContext Db = new QuestionBankDbContext();
                 Topic konu = Db.Topic.SingleOrDefault(x => x.ID.Equals(topic.ID));
                 konu.TopicName = topic.TopicName;
@@ -154,7 +155,7 @@ namespace QuestionBank.Controllers
                 {
 
                     Db.TopicQuestionPeriod.Add(new TopicQuestionPeriod() { QuestionPeriodID = item, TopicID = konu.ID });
-                    
+
                 }
                 Db.SaveChanges();
 
@@ -168,8 +169,8 @@ namespace QuestionBank.Controllers
                 ViewBag.Message = $"<div class='alert alert-danger'><strong>Hata!</strong> Konunun en az bir dönemi olmalı... </div>";
                 return View();
             }
-           
-           
+
+
         }
     }
 }

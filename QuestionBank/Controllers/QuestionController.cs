@@ -19,7 +19,9 @@ namespace QuestionBank.Controllers
         [SelectedTab("Questions")]
         public ActionResult Index()
         {
-
+            //QuestionBankDbContext db = new QuestionBankDbContext();
+            //List<UserLesson> ders = db.UserLesson.Where(x => x.User.UserName.Equals(User.Identity.Name)).ToList();
+            //return View(ders);
             QuestionBankDbContext Db = new QuestionBankDbContext();
             List<Question> questions = Db.Question.ToList();
             User user = Db.User.SingleOrDefault(x => x.UserName.Equals(User.Identity.Name));
@@ -38,7 +40,35 @@ namespace QuestionBank.Controllers
 
             return View(lst);
         }
+        [HttpPost]
+        public string AddQuestion(QuestionAddViewModel model)
+        {
+            Question question = new Question
+            {
+                Question1 = model.Question,
+                QuestionTypeID = model.QuestionTypeID,
+                QuestionPeriodID = model.PeriodID,
+                TopicID = model.TopicID
+            };
+            QuestionBankDbContext Db = new QuestionBankDbContext();
+            Db.Question.Add(question);
+            Db.SaveChanges();
+            List<Answers> lst = new List<Answers>();
+            foreach (var item in model.Answers)
+            {
+                Answers answers = new Answers
+                {
+                    QuestionID = question.ID,
+                    Answer = item.AnswerContent,
+                    IsItTrue = item.Val
+                };
+                lst.Add(answers);
+            }
+            Db.Answers.AddRange(lst);
+            Db.SaveChanges();
 
+            return JsonConvert.SerializeObject(new { durum = "OK", mesaj = "Soru başarıyla eklendi" });
+        }
         [HttpPost]
         public string GetLessonsTopic(int ID)
         {
@@ -91,35 +121,7 @@ namespace QuestionBank.Controllers
             return message;
         }
 
-        [HttpPost]
-        public string AddQuestion(QuestionAddViewModel model)
-        {
-            Question question = new Question
-            {
-                Question1 = model.Question,
-                QuestionTypeID = model.QuestionTypeID,
-                QuestionPeriodID = model.PeriodID,
-                TopicID = model.TopicID
-            };
-            QuestionBankDbContext Db = new QuestionBankDbContext();
-            Db.Question.Add(question);
-            Db.SaveChanges();
-            List<Answers> lst = new List<Answers>();
-            foreach (var item in model.Answers)
-            {
-                Answers answers = new Answers
-                {
-                    QuestionID = question.ID,
-                    Answer = item.AnswerContent,
-                    IsItTrue = item.Val
-                };
-                lst.Add(answers);
-            }
-            Db.Answers.AddRange(lst);
-            Db.SaveChanges();
 
-            return JsonConvert.SerializeObject(new { durum = "OK", mesaj = "Soru başarıyla eklendi" });
-        }
         public ActionResult Edit(int ID)
         {
 
@@ -133,35 +135,59 @@ namespace QuestionBank.Controllers
         public ActionResult Edit(Question question, string txtdogrucevap, string[] txtyanliscevap)
         {
 
-           
-                QuestionBankDbContext Db = new QuestionBankDbContext();
-                Question soru = Db.Question.SingleOrDefault(x => x.ID.Equals(question.ID));
 
-                soru.TopicID = question.TopicID;
-                soru.QuestionTypeID = question.QuestionTypeID;
-                soru.Question1 = question.Question1;
+            QuestionBankDbContext Db = new QuestionBankDbContext();
+            Question soru = Db.Question.SingleOrDefault(x => x.ID.Equals(question.ID));
 
-                List<Answers> Silinecekler = Db.Answers.Where(x => x.QuestionID.Equals(question.ID)).ToList();
-                Db.Answers.RemoveRange(Silinecekler);
-                Db.Answers.Add(new Answers() { Answer = txtdogrucevap, QuestionID = question.ID, IsItTrue = true });
-                if (txtyanliscevap != null)
+            soru.TopicID = question.TopicID;
+            soru.QuestionTypeID = question.QuestionTypeID;
+            soru.Question1 = question.Question1;
+
+            List<Answers> Silinecekler = Db.Answers.Where(x => x.QuestionID.Equals(question.ID)).ToList();
+            Db.Answers.RemoveRange(Silinecekler);
+            Db.Answers.Add(new Answers() { Answer = txtdogrucevap, QuestionID = question.ID, IsItTrue = true });
+            if (txtyanliscevap != null)
+            {
+                foreach (var item in txtyanliscevap)
                 {
-                    foreach (var item in txtyanliscevap)
-                    {
 
-                        Db.Answers.Add(new Answers() { Answer = item.ToString(), QuestionID = question.ID });
+                    Db.Answers.Add(new Answers() { Answer = item.ToString(), QuestionID = question.ID });
 
-                    }
                 }
+            }
 
 
-                Db.SaveChanges();
-                var model = new QuestionEditViewModel(soru.ID);
-       
-                ViewBag.Message = $"<div class='alert alert-success'><strong> Soru Başarıyla güncellendi...</strong> </div>";
-                return View(model);
+            Db.SaveChanges();
+            var model = new QuestionEditViewModel(soru.ID);
+
+            ViewBag.Message = $"<div class='alert alert-success'><strong> Soru Başarıyla güncellendi...</strong> </div>";
+            return View(model);
 
         }
 
+
+        //public ActionResult LessonQuestionList(int LessonID)
+        //{
+        //    QuestionBankDbContext Db = new QuestionBankDbContext();
+        //    List<Question> lstquestions = Db.Question.ToList();
+        //    User user = Db.User.SingleOrDefault(x => x.UserName.Equals(User.Identity.Name));
+        //    int[] userLessons = Db.UserLesson.Where(x => x.UserID.Equals(user.ID)).Select(x => x.LessonID).ToArray();
+        //    if (LessonID == 0)
+        //    {
+
+        //        lstquestions = null;
+
+        //    }
+        //    else
+        //    {
+
+
+              
+               
+        //        lstquestions = lstquestions.Where(x => userLessons.Contains(x.Topic.LessonID)).ToList();
+
+        //    }
+        //    return PartialView(lstquestions);
+        //}
     }
 }

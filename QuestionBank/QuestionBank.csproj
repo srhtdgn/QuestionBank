@@ -289,6 +289,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Topic\LessonTopicsList.cshtml" />
     <Content Include="Views\Topic\Edit.cshtml" />
+    <Content Include="Views\Question\LessonQuestionList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -44,7 +44,7 @@ namespace QuestionBank.Controllers
 
                     if (Db.User.ToList().SingleOrDefault(x => x.Mail.Equals(model.Mail)) == null)
                     {
-                        if (Db.User.ToList().SingleOrDefault(x => x.UserName.Equals(model.Mail)) == null)
+                        if (Db.User.ToList().SingleOrDefault(x => x.UserName.Equals(model.UserName)) == null)
                         {
 
                             Db.Entry(model).State = System.Data.Entity.EntityState.Added;
@@ -62,7 +62,7 @@ namespace QuestionBank.Controllers
 
                         else
                         {
-                            ViewBag.Message = $"<div class='alert alert-danger'><strong>Hata!</strong> Bu kullanıcı adı veya Mail Kullanılıyor zaten kullanılıyor... </div>";
+                            ViewBag.Message = $"<div class='alert alert-danger'><strong>Hata!</strong> Bu kullanıcı adı  zaten kullanılıyor... </div>";
                         }
                     }
                     else

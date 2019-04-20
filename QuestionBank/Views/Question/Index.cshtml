@@ -16,7 +16,6 @@
 </div>
 <br />
 <div id="message"></div>
-
 <div class="row">
     <div class="col-md-12">
         <div class="portlet box green">
@@ -69,9 +68,9 @@
                                 </td>
                                 <td>
                                     @Html.RouteLink("Düzenle", "EditQuestion", new { id = item.ID }, new { @class = "btn btn-outline btn-circle dark btn-sm purple fa fa-edit" }) |
-                                 
+
                                     <a href="#" class="btn btn-outline btn-circle dark btn-sm red" onclick="DeleteQuestion(@item.ID)"> <i class="fa fa-trash-o"></i>Sil</a>
-                                    
+
                                 </td>
                             </tr>
                             i++;
@@ -83,6 +82,33 @@
         </div>
     </div>
 </div>
+@*<table class="table table-bordered table-striped table-condensed flip-content">
+    <thead>
+        <tr>
+            <th>Ders No</th>
+            <th>Dersleriniz</th>
+            <th>Konuları Göster</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr id="tr_@item.ID">
+                <td>@item.Lesson.ID</td>
+                <td>
+                    @item.Lesson.LessonName
+                </td>
+                <td>
+                    @Ajax.ActionLink("Soruları Göster", "LessonQuestionList", "Question", new { LessonID = item.Lesson.ID }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "DersSorulari" }, new { @class = "btn green btn-info btn-circle" })
+
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>*@
+<div id="DersSorulari"></div>
+
 
 @section styles{
     <link href="/Content/assets/global/plugins/datatables/datatables.min.css" rel="stylesheet" type="text/css" />

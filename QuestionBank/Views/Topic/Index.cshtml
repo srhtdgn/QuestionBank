@@ -17,31 +17,32 @@
     </div>
 </div>
 <br />
-<table class="table table-bordered" >
-    <thead>
-        <tr>
-            <th>Ders No</th>
-            <th>Ders Adı</th>
-            <th>Konuları Göster</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr id="tr_@item.ID">
-                <td>@item.Lesson.ID</td>
-                <td>
-                    @item.Lesson.LessonName
-                </td>
-                <td>
-                   @Ajax.ActionLink("Konuları Göster", "LessonTopicsList", "Topic", new { LessonID= item.Lesson.ID },new AjaxOptions { HttpMethod="GET",UpdateTargetId= "DersKonulari" },new { @class = "btn green btn-info btn-circle" })
-                   
-                </td>
-            </tr>
-        }
 
-    </tbody>
-</table>
+<table class="table table-bordered table-striped table-condensed flip-content" >
+        <thead>
+            <tr>
+                <th>Ders No</th>
+                <th>Dersleriniz</th>
+                <th>Konuları Göster</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr id="tr_@item.ID">
+                    <td>@item.Lesson.ID</td>
+                    <td>
+                        @item.Lesson.LessonName
+                    </td>
+                    <td>
+                       @Ajax.ActionLink("Konuları Göster", "LessonTopicsList", "Topic", new { LessonID= item.Lesson.ID },new AjaxOptions { HttpMethod="GET",UpdateTargetId= "DersKonulari" },new { @class = "btn green btn-info btn-circle" })
+
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
 <div id="DersKonulari"></div>
 
 
