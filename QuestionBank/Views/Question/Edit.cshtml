@@ -19,10 +19,12 @@
 
 <br />
 <div id="message"></div>
-
+@Html.Raw(@ViewBag.Message)
 <div class="portlet-body form">
     @using (Html.BeginForm("Edit", "Question", FormMethod.Post))
     {
+
+        @Html.AntiForgeryToken()
         <div class="form-horizontal">
 
             <div class="form-group">
@@ -31,7 +33,7 @@
                     @*// @Html.DropDownListFor(x => x.question.Topic.LessonID, new SelectList(Model.Lessons, "ID", "LessonName"), new { @class = "form-control ", disabled = "disabled" })*@
                     @Html.TextBoxFor(x => x.question.Topic.Lesson.LessonName, new { @class = "form-control ", @readonly = "true" })
 
-                  
+
                 </div>
             </div>
 
@@ -81,7 +83,7 @@
 
             <div class="form-group">
                 <div class="col-md-offset-2  col-md-10">
-                    <input type="submit" value="Güncelle" class="btn btn-circle green gonder"/>
+                    <input type="submit" value="Güncelle" class="btn btn-circle green gonder" />
                 </div>
             </div>
 
@@ -103,7 +105,7 @@
 
             var Cevapsayisi = $('.txtcevap').length;
 
-            $('#CevapEkle').on("click",function () {
+            $('#CevapEkle').on("click", function () {
                 if (Cevapsayisi < 5) {
                     Cevapsayisi++;
                     $(this).prev().after("<div class='col-md-offset-2 col-md-10 divcevap' ><div class='input-group'><span class='input-group-addon'><input type='radio'class='RadioCevap' name='RadioCevap'><span></span></span><div class='input-icon right'><i class='fa fa-close  sil' style='color:black'></i><i class='fa fa-mic'></i><input name='txtyanliscevap' type='text' class='form-control  txtcevap'></div></div></div>");
@@ -130,13 +132,13 @@
                     else {
                         $(this).attr('name', 'txtyanliscevap');
                     }
-                       
-                    });
+
+                });
             });
-  
+
 
         });
-          
+
 
 
     </script>

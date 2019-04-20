@@ -133,30 +133,34 @@ namespace QuestionBank.Controllers
         public ActionResult Edit(Question question, string txtdogrucevap, string[] txtyanliscevap)
         {
 
+           
+                QuestionBankDbContext Db = new QuestionBankDbContext();
+                Question soru = Db.Question.SingleOrDefault(x => x.ID.Equals(question.ID));
 
-            QuestionBankDbContext Db = new QuestionBankDbContext();
-            Question questions = Db.Question.SingleOrDefault(x => x.ID.Equals(question.ID));
+                soru.TopicID = question.TopicID;
+                soru.QuestionTypeID = question.QuestionTypeID;
+                soru.Question1 = question.Question1;
 
-            questions.TopicID = question.TopicID;
-            questions.QuestionTypeID = question.QuestionTypeID;
-            questions.Question1 = question.Question1;
-
-            List<Answers> Silinecekler = Db.Answers.Where(x => x.QuestionID.Equals(question.ID)).ToList();
-            Db.Answers.RemoveRange(Silinecekler);
-            Db.Answers.Add(new Answers() { Answer = txtdogrucevap, QuestionID = question.ID, IsItTrue = true });
-            if (txtyanliscevap != null)
-            {
-                foreach (var item in txtyanliscevap)
+                List<Answers> Silinecekler = Db.Answers.Where(x => x.QuestionID.Equals(question.ID)).ToList();
+                Db.Answers.RemoveRange(Silinecekler);
+                Db.Answers.Add(new Answers() { Answer = txtdogrucevap, QuestionID = question.ID, IsItTrue = true });
+                if (txtyanliscevap != null)
                 {
+                    foreach (var item in txtyanliscevap)
+                    {
 
-                    Db.Answers.Add(new Answers() { Answer = item.ToString(), QuestionID = question.ID });
+                        Db.Answers.Add(new Answers() { Answer = item.ToString(), QuestionID = question.ID });
 
+                    }
                 }
-            }
 
 
-            Db.SaveChanges();
-            return RedirectToRoute("Questions");
+                Db.SaveChanges();
+                var model = new QuestionEditViewModel(soru.ID);
+       
+                ViewBag.Message = $"<div class='alert alert-success'><strong> Soru Başarıyla güncellendi...</strong> </div>";
+                return View(model);
+
         }
 
     }

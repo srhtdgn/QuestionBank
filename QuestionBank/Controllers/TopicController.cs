@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using QuestionBank.Infrastructure;
 using QuestionBank.Models;
+using QuestionBank.Models.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,7 +56,7 @@ namespace QuestionBank.Controllers
             QuestionBankDbContext db = new QuestionBankDbContext();
             if (ModelState.IsValid)
             {
-                if (db.Topic.SingleOrDefault(x=>x.TopicName.Equals(model.TopicName))==null)
+                if (db.Topic.SingleOrDefault(x => x.TopicName.Equals(model.TopicName)) == null)
                 {
                     db.Topic.Add(model);
                     db.SaveChanges();
@@ -117,7 +118,7 @@ namespace QuestionBank.Controllers
                 Topic topic = Db.Topic.SingleOrDefault(x => x.ID.Equals(ID));
                 if (topic != null)
                 {
-                    List<TopicQuestionPeriod> periods = Db.TopicQuestionPeriod.RemoveRange(Db.TopicQuestionPeriod.Where(x=>x.TopicID.Equals(ID))).ToList();
+                    List<TopicQuestionPeriod> periods = Db.TopicQuestionPeriod.RemoveRange(Db.TopicQuestionPeriod.Where(x => x.TopicID.Equals(ID))).ToList();
 
                     Db.TopicQuestionPeriod.RemoveRange(periods);
                     Db.Topic.Remove(topic);
@@ -130,6 +131,45 @@ namespace QuestionBank.Controllers
                 }
             }
             return message;
+        }
+        public ActionResult Edit(int ID)
+        {
+
+            var model = new TopicEditViewModel(ID);
+            PostQuestionPeriod();
+            return View(model);
+           
+
+        }
+        [HttpPost]
+        public ActionResult Edit(Topic topic,int[] periods)
+        {
+            if(ModelState.IsValid && periods != null){
+                QuestionBankDbContext Db = new QuestionBankDbContext();
+                Topic konu = Db.Topic.SingleOrDefault(x => x.ID.Equals(topic.ID));
+                konu.TopicName = topic.TopicName;
+                List<TopicQuestionPeriod> Silinecekler = Db.TopicQuestionPeriod.Where(x => x.TopicID.Equals(topic.ID)).ToList();
+                Db.TopicQuestionPeriod.RemoveRange(Silinecekler);
+                foreach (var item in periods)
+                {
+
+                    Db.TopicQuestionPeriod.Add(new TopicQuestionPeriod() { QuestionPeriodID = item, TopicID = konu.ID });
+                    
+                }
+                Db.SaveChanges();
+
+
+                var model = new TopicEditViewModel(konu.ID);
+                ViewBag.Message = $"<div class='alert alert-success'><strong>Konu Başarıyla güncellendi...</strong>  </div>";
+                return View(model);
+            }
+            else
+            {
+                ViewBag.Message = $"<div class='alert alert-danger'><strong>Hata!</strong> Konunun en az bir dönemi olmalı... </div>";
+                return View();
+            }
+           
+           
         }
     }
 }

@@ -253,6 +253,7 @@
     <Compile Include="Models\ViewModel\QuestionEditViewModel.cs" />
     <Compile Include="Models\ViewModel\QuestionAddJsonModel.cs" />
     <Compile Include="Models\ViewModel\QuestionAddViewModel.cs" />
+    <Compile Include="Models\ViewModel\TopicEditViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -287,6 +288,7 @@
     <Content Include="Views\Error\NotFound.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Topic\LessonTopicsList.cshtml" />
+    <Content Include="Views\Topic\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
