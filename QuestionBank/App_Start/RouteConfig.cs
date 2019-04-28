@@ -57,9 +57,12 @@ namespace QuestionBank
 
             #endregion
 
+            #region Exam
+            routes.MapRoute(name: "Exams", url: "Sınavlar", defaults: new { controller = "Exam", action = "Index" });
 
             routes.MapRoute(name: "ExamPrepare", url: "SinavHazirla", defaults: new { controller = "Exam", action = "Prepare" });
             routes.MapRoute(name: "ExamShow", url: "SinavGoster", defaults: new { controller = "Exam", action = "Show" });
+            #endregion
             routes.MapRoute(name: "Default", url: "{controller}/{action}/{id}", defaults: new { controller = "Home", action = "Index" ,id=UrlParameter.Optional});
 
         }

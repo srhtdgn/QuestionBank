@@ -47,16 +47,16 @@
         <div class="form-group">
             <label class="col-md-2 control-label">Dönem Seçin</label>
             <div class="col-md-10">
-                <select id="Donem" name="Donem" class="form-control">
-                    <option selected="selected" value="0">Dönem Seçin</option>
+                <select id="Donem" name="Donem" class="form-control select2-multiple select2-hidden-accessible " multiple="" tabindex="-1"  aria-hidden="true" disabled>
+              
                 </select>
-            </div>
+            </div>  
         </div>
 
         <div class="form-group">
             <label class="col-md-2 control-label">Soru Tipi Seçin</label>
             <div class="col-md-10">
-                <select id="SoruTipi" name="Donem" class="form-control">
+                <select id="SoruTipi" name="SoruTipi" class="form-control">
                     <option selected="selected" value="0">Soru Tipi Seçin</option>
                     <option value="1">Klasik</option>
                     <option value="2">Test</option>
@@ -131,20 +131,23 @@
                                     text: item.TopicName
                                 }));
                             });
-                            $('#Donem').empty().append('<option selected="selected" value="0">Dönem Seçin</option>');
+                            //$('#Donem').empty().append('<option selected="selected" value="0">Dönem Seçin</option>');
                         }
                     });
                 }
             });
 
             $('#Konu').on('change', function () {
+                //$('#Donem').append('<option >').removeAttr('selected');
                 var i = $(this).prop('selectedIndex') - 1;
-                $('#Donem').empty().append('<option selected="selected" value="0">Dönem Seçin</option>');
+               
                 $.each(result[i].Period, function (i, item) {
-                    $('#Donem').append($('<option>', {
+                  
+                    $('#Donem').append($('<option >', {
                         value: item.PeriodID,
                         text: item.PeriodName
-                    }));
+                    }).attr('selected', 'selected'));   
+                    //$("#Donem option[value=value]").attr('selected', 'selected');
                 });
             });
 

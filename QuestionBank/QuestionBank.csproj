@@ -226,6 +226,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\ExamController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LessonController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
@@ -250,6 +251,7 @@
     <Compile Include="Models\TopicQuestionPeriod.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserLesson.cs" />
+    <Compile Include="Models\ViewModel\ExamListAndAddViewModel.cs" />
     <Compile Include="Models\ViewModel\QuestionEditViewModel.cs" />
     <Compile Include="Models\ViewModel\QuestionAddJsonModel.cs" />
     <Compile Include="Models\ViewModel\QuestionAddViewModel.cs" />
@@ -290,6 +292,7 @@
     <Content Include="Views\Topic\LessonTopicsList.cshtml" />
     <Content Include="Views\Topic\Edit.cshtml" />
     <Content Include="Views\Question\LessonQuestionList.cshtml" />
+    <Content Include="Views\Exam\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
