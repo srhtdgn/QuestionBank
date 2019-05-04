@@ -1,0 +1,182 @@
+﻿@model IEnumerable<QuestionBank.Models.Question>
+@{
+    /**/
+
+    ViewBag.Page = "Sınav";
+    ViewBag.Title = "Sınav Yönetimi";
+    ViewBag.Description = "Sınav Hazırlama Ekranı";
+}
+
+<div class="row">
+    <div class="col-md-6">
+
+        <div class="btn-group">
+            <button class="btn btn-circle green" onclick="location.href='@Url.RouteUrl("Exams")'">
+                <i class="fa fa-arrow-left"></i>
+                Sınav Listesi
+            </button>
+        </div>
+    </div>
+</div>
+@if (ViewBag.ErrorMessage != null)
+{
+    <div><h3 style="color:red">@ViewBag.ErrorMessage</h3></div>
+}
+<div class="portlet-body">
+
+    <div class="tabbable-line">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#tab_1_1" data-toggle="tab">Manuel Sınav Hazırlama</a>
+            </li>
+            <li>
+                <a href="#tab_1_2" data-toggle="tab">Otomatik Sınav Hazırlama</a>
+            </li>
+        </ul>
+       
+        <div class="tab-content">
+            <div class="tab-pane active" id="tab_1_1">
+                @using (Html.BeginForm("LessonPeriodQuestions", "Exam", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Dersler</label>
+                            <div class="col-md-10">
+                                <select id="DersID" name="DersID" class="form-control">
+                                    <option value="0">Sınav oluşturmak istediğiniz dersi seçiniz...</option>
+                                    @foreach (var item in ViewBag.UserLessons)
+                                    {
+                                        <option value="@item.Lesson.ID">@item.Lesson.LessonName</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Soru Dönemi</label>
+                            <div class="col-md-10">
+                                <select id="DonemID" name="DonemID" class="form-control">
+                                    <option value="0">Sınav oluşturmak istediğiniz dönemi seçiniz...</option>
+                                    @foreach (var item in ViewBag.QuestionPeriod)
+                                    {
+                                        <option value="@item.ID">@item.QuestionPeriodName</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2  col-md-10">
+                                <input type="submit" value="Soruları Listele" class="btn btn-circle green gonder" />
+                            </div>
+                        </div>
+                    </div>
+                }
+                @using (Html.BeginForm("Add", "Exam", FormMethod.Post))
+                {
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="portlet box green">
+                                <div class="portlet-title">
+                                    <div class="caption">
+                                        <i class="fa fa-globe"></i>Soru Listesi
+                                    </div>
+                                    <div class="tools"> </div>
+                                </div>
+                                <div class="portlet-body">
+                                    <table class="table table-striped table-bordered table-hover" id="list">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    Sıra
+                                                </th>
+                                                <th>
+                                                    Soru
+                                                </th>
+                                                <th>Ders - Konu</th>
+                                                <th>
+                                                    Soru Tipi
+                                                </th>
+                                                <th>
+                                                    Soru Dönem
+                                                </th>
+                                                <th>İşlemler</th>
+                                            </tr>
+                                        </thead>
+                                        @if (Model != null)
+                                        {
+
+                                            <tbody>
+                                                @{int i = 1;}
+                                                @foreach (var item in Model)
+                                                {
+                                                    <tr id="tr_@item.ID">
+                                                        <td>
+                                                            <span>@i</span>
+                                                        </td>
+                                                        <td>
+                                                            @item.Question1
+                                                        </td>
+                                                        <td>
+                                                            <p> <label class="badge badge-success">@item.Topic.Lesson.LessonName</label>  -  @item.Topic.TopicName</p>
+                                                        </td>
+                                                        <td>
+                                                            @item.QuestionType.QuestionTypeName
+                                                        </td>
+                                                        <td>
+                                                            @item.QuestionPeriod.QuestionPeriodName
+                                                        </td>
+                                                        <td>
+
+
+                                                            <label class="mt-checkbox">
+                                                                <input type="checkbox" name="periods" value="@item.ID">
+                                                                <span></span>
+                                                            </label>
+
+
+                                                            @Html.RouteLink("Düzenle", "EditQuestion", new { id = item.ID }, new { @class = "btn btn-outline btn-circle dark btn-sm purple fa fa-edit" }) |
+
+                                                            <a href="#" class="btn btn-outline btn-circle dark btn-sm red" onclick="DeleteQuestion(@item.ID)"> <i class="fa fa-trash-o"></i>Sil</a>
+
+                                                        </td>
+                                                    </tr>
+
+                                                    i++;
+                                                }
+                                                <tr><td></td></tr>
+                                            </tbody>
+
+                                        }
+
+
+
+                                    </table>
+                                    @if (Model != null)
+                                    {
+                                        <label class="control-label" name="SinavAdi">Sınav Adı Giriniz</label>
+                                        @Html.TextBox("SinavAdi")
+                                        @*<input type='text' class=' control-label' name="SinavAdi">*@
+                                        <button type="submit" class="btn btn-circle btn-success ">Sınavı Oluştur</button>
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                }
+            </div>
+            <div class="tab-pane" id="tab_1_2">
+
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
+

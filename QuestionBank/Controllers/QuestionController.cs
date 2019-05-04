@@ -19,9 +19,7 @@ namespace QuestionBank.Controllers
         [SelectedTab("Questions")]
         public ActionResult Index()
         {
-            //QuestionBankDbContext db = new QuestionBankDbContext();
-            //List<UserLesson> ders = db.UserLesson.Where(x => x.User.UserName.Equals(User.Identity.Name)).ToList();
-            //return View(ders);
+         
             QuestionBankDbContext Db = new QuestionBankDbContext();
             List<Question> questions = Db.Question.ToList();
             User user = Db.User.SingleOrDefault(x => x.UserName.Equals(User.Identity.Name));
@@ -43,6 +41,7 @@ namespace QuestionBank.Controllers
         [HttpPost]
         public string AddQuestion(QuestionAddViewModel model)
         {
+            
             Question question = new Question
             {
                 Question1 = model.Question,
@@ -53,6 +52,7 @@ namespace QuestionBank.Controllers
             QuestionBankDbContext Db = new QuestionBankDbContext();
             Db.Question.Add(question);
             Db.SaveChanges();
+          
             List<Answers> lst = new List<Answers>();
             foreach (var item in model.Answers)
             {
@@ -166,28 +166,6 @@ namespace QuestionBank.Controllers
         }
 
 
-        //public ActionResult LessonQuestionList(int LessonID)
-        //{
-        //    QuestionBankDbContext Db = new QuestionBankDbContext();
-        //    List<Question> lstquestions = Db.Question.ToList();
-        //    User user = Db.User.SingleOrDefault(x => x.UserName.Equals(User.Identity.Name));
-        //    int[] userLessons = Db.UserLesson.Where(x => x.UserID.Equals(user.ID)).Select(x => x.LessonID).ToArray();
-        //    if (LessonID == 0)
-        //    {
-
-        //        lstquestions = null;
-
-        //    }
-        //    else
-        //    {
-
-
-              
-               
-        //        lstquestions = lstquestions.Where(x => userLessons.Contains(x.Topic.LessonID)).ToList();
-
-        //    }
-        //    return PartialView(lstquestions);
-        //}
+     
     }
 }
