@@ -41,5 +41,7 @@ namespace QuestionBank.Models
 
         public virtual QuestionType QuestionType { get; set; }
         public virtual Topic Topic { get; set; }
+        [NotMapped]
+        public int Puan { get; set; }
     }
 }
