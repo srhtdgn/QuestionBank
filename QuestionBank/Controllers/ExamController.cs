@@ -1,4 +1,6 @@
-﻿using QuestionBank.Models;
+﻿using Newtonsoft.Json;
+using QuestionBank.Infrastructure;
+using QuestionBank.Models;
 using QuestionBank.Models.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -11,7 +13,7 @@ namespace QuestionBank.Controllers
     public class ExamController : BaseController
     {
         // GET: Exam
-
+        [SelectedTab("Exams")]
         public ActionResult Index()
         {
             using (QuestionBankDbContext Db = new QuestionBankDbContext())
@@ -181,6 +183,37 @@ namespace QuestionBank.Controllers
         }
 
 
+        public ActionResult ExamShow(int ID)
+        {
+            QuestionBankDbContext Db = new QuestionBankDbContext();
+            var model= Db.ExamQuestions.Where(x => x.ExamID.Equals(ID)).ToList();
+            
+            return View(Db.ExamQuestions.Where(x => x.ExamID.Equals(ID)).ToList()
+);
+        }
+
+        public String Delete(int ID)
+        {
+            string message = string.Empty;
+            using (QuestionBankDbContext Db = new QuestionBankDbContext())
+            {
+                Exam exam = Db.Exam.SingleOrDefault(x => x.ID.Equals(ID));
+                if (exam != null)
+                {
+                    List<ExamQuestions> examquestions = Db.ExamQuestions.RemoveRange(Db.ExamQuestions.Where(x => x.ExamID.Equals(ID))).ToList();
+
+                    Db.Exam.Remove(exam);
+
+                    Db.SaveChanges();
+                    message = JsonConvert.SerializeObject(new { durum = "OK", mesaj = "Sınav Silindi" });
+                }
+                else
+                {
+                    message = JsonConvert.SerializeObject(new { durum = "No", mesaj = "Sınav Silinemedi" });
+                }
+            }
+            return message;
+        }
        
     }
 }

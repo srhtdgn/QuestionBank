@@ -118,9 +118,14 @@ namespace QuestionBank.Controllers
                 Topic topic = Db.Topic.SingleOrDefault(x => x.ID.Equals(ID));
                 if (topic != null)
                 {
-                    List<TopicQuestionPeriod> periods = Db.TopicQuestionPeriod.RemoveRange(Db.TopicQuestionPeriod.Where(x => x.TopicID.Equals(ID))).ToList();
+                    foreach (var item in topic.Questions)
+                    {
+                        List<Answers> LstTopicQuestionsAnswers = Db.Answers.RemoveRange(Db.Answers.Where(x => x.QuestionID.Equals(item.ID))).ToList();
+                        ExamQuestions LstQuestionInExam = Db.ExamQuestions.Remove(Db.ExamQuestions.SingleOrDefault(x => x.QuestionID.Equals(item.ID)));
 
-                    Db.TopicQuestionPeriod.RemoveRange(periods);
+                    }
+                    List<Question> LstTopicQuestions = Db.Question.RemoveRange(Db.Question.Where(x => x.TopicID.Equals(ID))).ToList();
+                    List<TopicQuestionPeriod> periods = Db.TopicQuestionPeriod.RemoveRange(Db.TopicQuestionPeriod.Where(x => x.TopicID.Equals(ID))).ToList();                 
                     Db.Topic.Remove(topic);
                     Db.SaveChanges();
                     message = JsonConvert.SerializeObject(new { durum = "OK", mesaj = "Konu Silindi" });

@@ -61,7 +61,7 @@
     <script>
 
         function DeleteTopic(id) {
-            if (confirm("Konu Silinsin mi ?")) {
+            if (confirm("Konu,konuya dahil sorular ,cevapları ve sınavlara dahil sorular silinsin mi ?")) {
                 $.ajax({
                     type: "POST",
                     url: "KonuSil",

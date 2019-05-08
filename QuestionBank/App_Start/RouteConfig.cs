@@ -61,6 +61,10 @@ namespace QuestionBank
             routes.MapRoute(name: "AddExam", url: "SinavHazirla", defaults: new { controller = "Exam", action = "Add" });
             routes.MapRoute(name: "OtoAddExam", url: "OtomatikSinavHazirla", defaults: new { controller = "Exam", action = "OtoAdd" });
             routes.MapRoute(name: "GetLessonPeriodQuestions", url: "DersDonemSorulari", defaults: new { controller = "Exam", action = "LessonPeriodQuestions" });
+            routes.MapRoute(name: "ExamShow", url: "SinavGoster/{ID}", defaults: new { controller = "Exam", action = "ExamShow" });
+            routes.MapRoute(name: "DeleteExam", url: "SinavSil", defaults: new { controller = "Exam", action = "Delete" });
+
+
 
             //routes.MapRoute(name: "ExamPrepare", url: "SinavHazirla", defaults: new { controller = "Exam", action = "Prepare" });
             //routes.MapRoute(name: "ExamShow", url: "SinavGoster", defaults: new { controller = "Exam", action = "Show" });

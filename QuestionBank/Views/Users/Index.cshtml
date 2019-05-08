@@ -63,7 +63,7 @@
                                 </td>
                                 <td>
                                     @Html.RouteLink("Düzenle", "EditUser", new { id = item.ID  },new { @class = "btn btn-outline btn-circle dark btn-sm purple fa fa-edit" }) |
-                                    <a href="#" class="btn btn-outline btn-circle dark btn-sm red" onclick="DeleteLesson(@item.ID)"> <i class="fa fa-trash-o"></i>Sil</a>
+                                    <a href="#" class="btn btn-outline btn-circle dark btn-sm red" onclick="DeleteUser(@item.ID)"> <i class="fa fa-trash-o"></i>Sil</a>
                                 </td>
                             </tr>
                         }
@@ -88,7 +88,7 @@
   
     <script>
 
-        function DeleteLesson(id) {
+        function DeleteUser(id) {
             if (confirm("Kullanıcı Silinsin mi ?")) {
                 $.ajax({
                     type: "POST",

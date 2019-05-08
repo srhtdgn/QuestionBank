@@ -9,18 +9,18 @@ using System.Web.Mvc;
 
 namespace QuestionBank.Controllers
 {
-    [Authorize(Roles ="Admin")]
+    [Authorize(Roles = "Admin")]
     [SelectedTab("Lesson")]
     public class LessonController : Controller
     {
         // GET: Lesson
         public ActionResult Index()
         {
-            using(QuestionBankDbContext Db=new QuestionBankDbContext())
+            using (QuestionBankDbContext Db = new QuestionBankDbContext())
             {
                 return View(Db.Lesson.ToList());
             }
-       
+
         }
         public ActionResult Add()
         {
@@ -31,7 +31,7 @@ namespace QuestionBank.Controllers
         {
             if (ModelState.IsValid)
             {
-                using(QuestionBankDbContext db = new QuestionBankDbContext())
+                using (QuestionBankDbContext db = new QuestionBankDbContext())
                 {
                     if (db.Lesson.SingleOrDefault(x => x.LessonName.Equals(model.LessonName)) == null)
                     {
@@ -92,10 +92,23 @@ namespace QuestionBank.Controllers
                 Lesson ders = Db.Lesson.SingleOrDefault(x => x.ID.Equals(ID));
                 if (ders != null)
                 {
-                    IEnumerable<UserLesson> dersles = Db.UserLesson.RemoveRange(Db.UserLesson.Where(x => x.LessonID == ID));
-                   
+                    IEnumerable<UserLesson> dersles = Db.UserLesson.RemoveRange(Db.UserLesson.Where(x => x.LessonID.Equals(ID)));
+                    List<Topic> LstLessonTopics = new List<Topic>();
+                    foreach (var item in ders.Topic)
+                    {    
+                        foreach (var lstquestion in item.Questions)
+                        {
+                            List<Answers> LstTopicQuestionsAnswers = Db.Answers.RemoveRange(Db.Answers.Where(x => x.QuestionID.Equals(lstquestion.ID))).ToList();
+                            ExamQuestions LstQuestionInExam = Db.ExamQuestions.Remove(Db.ExamQuestions.SingleOrDefault(x => x.QuestionID.Equals(lstquestion.ID)));
+                        }
+                        List<Question> DeleteTopicQuestions = Db.Question.RemoveRange(Db.Question.Where(x => x.TopicID.Equals(item.ID))).ToList();
+                        List<TopicQuestionPeriod> periods = Db.TopicQuestionPeriod.RemoveRange(Db.TopicQuestionPeriod.Where(x => x.TopicID.Equals(item.ID))).ToList();
+                        LstLessonTopics.Add(item);
+                  
+                    }
+                    Db.Topic.RemoveRange(LstLessonTopics);
                     Db.Lesson.Remove(ders);
-                   
+
                     Db.SaveChanges();
                     message = JsonConvert.SerializeObject(new { durum = "OK", mesaj = "Ders Silindi" });
                 }

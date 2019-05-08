@@ -19,7 +19,7 @@ namespace QuestionBank.Controllers
         [SelectedTab("Questions")]
         public ActionResult Index()
         {
-         
+
             QuestionBankDbContext Db = new QuestionBankDbContext();
             List<Question> questions = Db.Question.ToList();
             User user = Db.User.SingleOrDefault(x => x.UserName.Equals(User.Identity.Name));
@@ -27,6 +27,7 @@ namespace QuestionBank.Controllers
             questions = questions.Where(x => userLessons.Contains(x.Topic.LessonID)).ToList();
             return View(questions);
         }
+
         public ActionResult Add()
         {
             QuestionBankDbContext Db = new QuestionBankDbContext();
@@ -38,10 +39,11 @@ namespace QuestionBank.Controllers
 
             return View(lst);
         }
+
         [HttpPost]
         public string AddQuestion(QuestionAddViewModel model)
         {
-            
+
             Question question = new Question
             {
                 Question1 = model.Question,
@@ -52,7 +54,7 @@ namespace QuestionBank.Controllers
             QuestionBankDbContext Db = new QuestionBankDbContext();
             Db.Question.Add(question);
             Db.SaveChanges();
-          
+
             List<Answers> lst = new List<Answers>();
             foreach (var item in model.Answers)
             {
@@ -69,6 +71,7 @@ namespace QuestionBank.Controllers
 
             return JsonConvert.SerializeObject(new { durum = "OK", mesaj = "Soru başarıyla eklendi" });
         }
+
         [HttpPost]
         public string GetLessonsTopic(int ID)
         {
@@ -103,12 +106,12 @@ namespace QuestionBank.Controllers
             string message = string.Empty;
             using (QuestionBankDbContext Db = new QuestionBankDbContext())
             {
-                List<Answers> lst = Db.Answers.Where(x => x.QuestionID.Equals(ID)).ToList();
-                Db.Answers.RemoveRange(lst);
 
                 Question question = Db.Question.SingleOrDefault(x => x.ID.Equals(ID));
                 if (question != null)
                 {
+                    ExamQuestions LstQuestionInExam = Db.ExamQuestions.Remove(Db.ExamQuestions.SingleOrDefault(x=>x.QuestionID.Equals(ID)));
+                    List<Answers> lstquestionanswers = Db.Answers.RemoveRange(Db.Answers.Where(x => x.QuestionID.Equals(ID))).ToList();                
                     Db.Question.Remove(question);
                     Db.SaveChanges();
                     message = JsonConvert.SerializeObject(new { durum = "OK", mesaj = "Soru Silindi" });
@@ -166,6 +169,6 @@ namespace QuestionBank.Controllers
         }
 
 
-     
+
     }
 }

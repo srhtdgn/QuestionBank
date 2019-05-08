@@ -176,7 +176,7 @@ namespace QuestionBank.Controllers
                 if (user != null)
                 {
 
-                    IEnumerable<UserLesson> userles = Db.UserLesson.RemoveRange(Db.UserLesson.Where(x => x.LessonID == ID));
+                    List<UserLesson> userles = Db.UserLesson.RemoveRange(Db.UserLesson.Where(x => x.UserID == ID)).ToList();
                     Db.User.Remove(user);
                     Db.SaveChanges();
                     message = JsonConvert.SerializeObject(new { durum = "OK", mesaj = "Kullanıcı Silindi" });

@@ -294,6 +294,7 @@
     <Content Include="Views\Question\LessonQuestionList.cshtml" />
     <Content Include="Views\Exam\Index.cshtml" />
     <Content Include="Views\Exam\Add.cshtml" />
+    <Content Include="Views\Exam\ExamShow.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
