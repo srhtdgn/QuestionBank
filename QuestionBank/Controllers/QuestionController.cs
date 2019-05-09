@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using QuestionBank.Helpers;
 using QuestionBank.Infrastructure;
 using QuestionBank.Models;
 using QuestionBank.Models.ViewModel;
@@ -110,7 +111,7 @@ namespace QuestionBank.Controllers
                 Question question = Db.Question.SingleOrDefault(x => x.ID.Equals(ID));
                 if (question != null)
                 {
-                    ExamQuestions LstQuestionInExam = Db.ExamQuestions.Remove(Db.ExamQuestions.SingleOrDefault(x=>x.QuestionID.Equals(ID)));
+                    ExamQuestions LstQuestionInExam = Db.ExamQuestions.Remove(Db.ExamQuestions.SingleOrDefault(x => x.QuestionID.Equals(ID)));
                     List<Answers> lstquestionanswers = Db.Answers.RemoveRange(Db.Answers.Where(x => x.QuestionID.Equals(ID))).ToList();                
                     Db.Question.Remove(question);
                     Db.SaveChanges();

@@ -33,17 +33,17 @@
 
     <div class="tabbable-line">
         <ul class="nav nav-tabs ">
-            <li>
+            <li class="active">
                 <a href="#tab_1_1" data-toggle="tab">Manuel Sınav Hazırlama</a>
             </li>
-            <li class="active">
+            <li >
                 <a href="#tab_1_2" data-toggle="tab">Otomatik Sınav Hazırlama</a>
             </li>
         </ul>
 
         <div class="tab-content">
             @Html.AntiForgeryToken()
-            <div class="tab-pane" id="tab_1_1">
+            <div class="tab-pane active" id="tab_1_1">
                 @using (Html.BeginForm("LessonPeriodQuestions", "Exam", FormMethod.Post))
                 {
 
@@ -194,7 +194,7 @@
 
                 }
             </div>
-            <div class="tab-pane active" id="tab_1_2">
+            <div class="tab-pane" id="tab_1_2">
                 @using (Html.BeginForm("OtoAdd", "Exam", FormMethod.Post))
                 {
                     <div class="form-horizontal">

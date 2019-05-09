@@ -12,6 +12,7 @@ namespace QuestionBank.Models.ViewModel
         public int QuestionTypeID { get; set; }
         public string Question { get; set; }
         public Answer[] Answers { get; set; }
+        public HttpPostedFileBase image { get ; set; }
 
         public class Answer
         {
