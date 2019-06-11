@@ -44,12 +44,14 @@ namespace QuestionBank.Controllers
         [HttpPost]
         public string AddQuestion(QuestionAddViewModel model)
         {
-
+           
             Question question = new Question
             {
                 Question1 = model.Question,
                 QuestionTypeID = model.QuestionTypeID,
                 QuestionPeriodID = model.PeriodID,
+                Point=model.SoruPuan,
+                Time=model.SoruSure,
                 TopicID = model.TopicID
             };
             QuestionBankDbContext Db = new QuestionBankDbContext();
@@ -111,7 +113,11 @@ namespace QuestionBank.Controllers
                 Question question = Db.Question.SingleOrDefault(x => x.ID.Equals(ID));
                 if (question != null)
                 {
-                    ExamQuestions LstQuestionInExam = Db.ExamQuestions.Remove(Db.ExamQuestions.SingleOrDefault(x => x.QuestionID.Equals(ID)));
+                    ExamQuestions LstQuestionInExam = Db.ExamQuestions.SingleOrDefault(x => x.QuestionID.Equals(ID));
+                    if (LstQuestionInExam!=null)
+                    {
+                        Db.ExamQuestions.Remove(LstQuestionInExam);
+                    }
                     List<Answers> lstquestionanswers = Db.Answers.RemoveRange(Db.Answers.Where(x => x.QuestionID.Equals(ID))).ToList();                
                     Db.Question.Remove(question);
                     Db.SaveChanges();
@@ -136,36 +142,41 @@ namespace QuestionBank.Controllers
 
 
         [HttpPost]
-        public ActionResult Edit(Question question, string txtdogrucevap, string[] txtyanliscevap)
+        public ActionResult Edit(QuestionAddViewModel model)
         {
 
 
             QuestionBankDbContext Db = new QuestionBankDbContext();
-            Question soru = Db.Question.SingleOrDefault(x => x.ID.Equals(question.ID));
+            Question soru = Db.Question.SingleOrDefault(x => x.ID.Equals(model.QuestionID));
+            
+            soru.TopicID = model.TopicID;
+            soru.QuestionTypeID = model.QuestionTypeID;
+            soru.Question1 = model.Question;
+            soru.Point = model.SoruPuan;
+            soru.Time = model.SoruSure;
 
-            soru.TopicID = question.TopicID;
-            soru.QuestionTypeID = question.QuestionTypeID;
-            soru.Question1 = question.Question1;
-
-            List<Answers> Silinecekler = Db.Answers.Where(x => x.QuestionID.Equals(question.ID)).ToList();
+            List<Answers> Silinecekler = Db.Answers.Where(x => x.QuestionID.Equals(model.QuestionID)).ToList();
             Db.Answers.RemoveRange(Silinecekler);
-            Db.Answers.Add(new Answers() { Answer = txtdogrucevap, QuestionID = question.ID, IsItTrue = true });
-            if (txtyanliscevap != null)
+            List<Answers> lst = new List<Answers>();
+            foreach (var item in model.Answers)
             {
-                foreach (var item in txtyanliscevap)
+                Answers answers = new Answers
                 {
-
-                    Db.Answers.Add(new Answers() { Answer = item.ToString(), QuestionID = question.ID });
-
-                }
+                    QuestionID = model.QuestionID,
+                    Answer = item.AnswerContent,
+                    IsItTrue = item.Val
+                };
+                lst.Add(answers);
             }
+            Db.Answers.AddRange(lst);
+   
 
 
             Db.SaveChanges();
-            var model = new QuestionEditViewModel(soru.ID);
+            var modelview = new QuestionEditViewModel(soru.ID);
 
             ViewBag.Message = $"<div class='alert alert-success'><strong> Soru Başarıyla güncellendi...</strong> </div>";
-            return View(model);
+            return View(modelview);
 
         }
 

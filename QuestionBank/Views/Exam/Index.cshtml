@@ -49,7 +49,6 @@
                                 </td>
                                 <td>
                                     @Html.RouteLink("Sınav Detayı", "ExamShow", new { id = item.ID }, new { @class = "btn btn-outline btn-circle dark btn-sm blue fa fa-clone" }) |
-                                    @Html.RouteLink("Düzenle", "EditLesson", new { id = item.ID }, new { @class = "btn btn-outline btn-circle dark btn-sm purple fa fa-edit" }) |
                                     <a href="#" class="btn btn-outline btn-circle dark btn-sm red" onclick="DeleteExam(@item.ID)">Sil</a>
                                 </td>
                             </tr>

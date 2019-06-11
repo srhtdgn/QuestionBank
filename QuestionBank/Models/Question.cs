@@ -28,6 +28,10 @@ namespace QuestionBank.Models
 
         public int TopicID { get; set; }
 
+        public int Point { get; set; }
+        public int Time { get; set; }
+   
+
         [StringLength(50)]
         public string Photo { get; set; }
 
@@ -41,7 +45,6 @@ namespace QuestionBank.Models
 
         public virtual QuestionType QuestionType { get; set; }
         public virtual Topic Topic { get; set; }
-        [NotMapped]
-        public int Puan { get; set; }
+
     }
 }

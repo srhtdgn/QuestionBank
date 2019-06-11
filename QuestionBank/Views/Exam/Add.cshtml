@@ -28,7 +28,7 @@
 {
     <div><h3 style="color:green">@ViewBag.Message</h3></div>
 }
-
+<hr />
 <div class="portlet-body">
 
     <div class="tabbable-line">
@@ -125,6 +125,7 @@
                                                     </th>
 
                                                     <th>Soru Puanı</th>
+                                                    <th>Soru Süresi</th>
                                                     <th>Sınava Ekle</th>
                                                 </tr>
                                             </thead>
@@ -150,14 +151,17 @@
                                                         </td>
 
                                                         <td>
-
-                                                            <input type="text" name="SoruPuani" class="form-control input-xsmall mask_number SoruPuani ">
+                                                            @item.questions.Point Puan
+                                                            @* <input type="text" name="SoruPuani" class="form-control input-xsmall mask_number SoruPuani ">*@
 
 
                                                         </td>
                                                         <td>
+                                                            @item.questions.Time Dakika
+                                                        </td>
+                                                        <td>
                                                             <label class="mt-checkbox">
-                                                                <input type="checkbox" name="SeciliSorular" value="@item.questions.ID">
+                                                                <input type="checkbox" id="SeciliSorular" name="SeciliSorular" value="@item.questions.ID">
                                                                 <span></span>
                                                             </label>
 
@@ -178,8 +182,10 @@
                                         {
                                             <label class="control-label" name="SinavAdi">Sınav Adını Giriniz</label>
                                             <input type="text" name="SinavAdi">
-                                            <label class="control-label">Sınav Puanı</label>
-                                            <input type="text" name="ToplamSinavPuani" class="ToplamSinavPuani ">
+                                            @*<label class="control-label">Sınav Puanı</label>
+                                                <input type="text" name="ToplamSinavPuani" class="ToplamSinavPuani ">*@
+
+
                                             <button type="submit" class="btn btn-circle btn-success ">Sınavı Oluştur</button>
 
                                         }
@@ -194,6 +200,7 @@
 
                 }
             </div>
+
             <div class="tab-pane" id="tab_1_2">
                 @using (Html.BeginForm("OtoAdd", "Exam", FormMethod.Post))
                 {
@@ -224,34 +231,20 @@
                             </div>
                         </div>
 
-                    </div>
-                    <hr>
-                    <h4>Soru Adet Sayıları ve Puanları</h4>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Sınav zorluk derecesi</label>
+                            <div class="col-md-10">
+                                <select id="ZorlukID" name="ZorlukID" class="form-control">
+                                    <option value="0">Sınavı oluşturmak istediğiniz zorluk derecesini seçiniz...</option>
+                                    <option value="1">Kolay</option>
+                                    <option value="2">Orta</option>
+                                    <option value="3">Zor</option>
+                                </select>
+                            </div>
+                        </div>
 
-                    <div class="row">
-                        <div class="col-md-2 ">
-                            <span class="col-md-12"> Klasik Soru Sayısı </span> <input type="text" name="KlasikSoruAdet" class="form-control col-md-2 mask_number" placeholder="Klasik Soru Sayısı">
-                        </div>
-                        <div class="col-md-2">
-                            <span class="col-md-12"> Test Soru Sayısı </span> <input type="text" name="TestSoruAdet" class="form-control col-md-2 mask_number" placeholder="Test Soru Sayısı ">
-                        </div>
-                        <div class="col-md-3">
-                            <span class=""> Boşluk Doldurma Soru Sayısı </span>  <input type="text" name="BoslukSoruAdet" class="form-control col-md-3 mask_number" placeholder="Boşluk Doldurma Soru Sayısı">
-                        </div>
                     </div>
-                    <hr />
-
-                    <div class="row">
-                        <div class="col-md-2 ">
-                            <span class="col-md-12"> Klasik Soru Puanı </span> <input type="text" name="KlasikSoruPuan" class="form-control col-md-2 mask_number" placeholder="Klasik Soru Puanı">
-                        </div>
-                        <div class="col-md-2">
-                            <span class="col-md-12"> Test Soru Puanı </span> <input type="text" name="TestSoruPuan" class="form-control col-md-2 mask_number" placeholder="Test Soru Puanı ">
-                        </div>
-                        <div class="col-md-3">
-                            <span class=""> Boşluk Doldurma Soru Puanı </span>  <input type="text" name="BoslukSoruPuan" class="form-control col-md-3 mask_number" placeholder="Boşluk Doldurma Soru Puanı">
-                        </div>
-                    </div>
+                
                     <hr />
                     <div class="form-group">
                         <div class="col-md-offset-2">
@@ -285,25 +278,40 @@
     <script src="/Content/assets/global/plugins/select2/js/select2.full.min.js" type="text/javascript"></script>
     <script src="/Content/assets/pages/scripts/components-select2.min.js" type="text/javascript"></script>
 
+
+    @*<script type="text/javascript">
+            $(document).ready(function () {
+                $("#SeciliSorular").click(function () {
+                    var sList = "";
+                    $('input[type=checkbox]').each(function () {
+                        var sThisVal = (this.checked ? "1" : "0");
+                        sList += (sList == "" ? sThisVal : "," + sThisVal);
+                    });
+                    console.log(sList);
+
+
+                });
+            });
+        </script>*@
     <script>
 
-        $.fn.sumValues = function () {
-            var sum = 0;
-            $('.SoruPuani').each(function () {
-                if ($(this).is(':input')) {
-                    var val = $(this).val();
-                } else {
-                    var val = $(this).text();
-                }
-                sum += parseFloat(('0' + val).replace(/[^0-9-\.]/g, ''), 10);
-            });
-            return sum;
-        };
-        $('input.SoruPuani').bind('keyup', function () {
+                //$.fn.sumValues = function () {
+                //    var sum = 0;
+                //    $('.SoruPuani').each(function () {
+                //        if ($(this).is(':input')) {
+                //            var val = $(this).val();
+                //        } else {
+                //            var val = $(this).text();
+                //        }
+                //        sum += parseFloat(('0' + val).replace(/[^0-9-\.]/g, ''), 10);
+                //    });
+                //    return sum;
+                //};
+                //$('input.SoruPuani').bind('keyup', function () {
 
-            $('input.ToplamSinavPuani').val($('input.Deger').sumValues());
+                //    $('input.ToplamSinavPuani').val($('input.Deger').sumValues());
 
-        });
+                //});
 
     </script>
 

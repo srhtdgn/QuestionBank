@@ -34,10 +34,16 @@ namespace QuestionBank.Controllers
         [HttpPost]
         public ActionResult Add(ExamPrepareViewModel model)
         {
+            QuestionBankDbContext Db = new QuestionBankDbContext();
             PostUserLessonAndPeriod();
             if (string.IsNullOrWhiteSpace(model.SinavAdi) || model.SeciliSorular == null)
             {
-
+                if (Db.Exam.SingleOrDefault(x=>x.ExamName.Equals(model.SinavAdi))==null)
+                {
+                    ViewBag.ErrorMessage = "Bu isimde sınav mevcuttur lütfen başka sınav ismi giriniz.";
+                    return View();
+                }
+                
                 ViewBag.ErrorMessage = "Lütfen Sınav adı belirleyin veya soru seçiniz...";
                 return View();
             }
@@ -50,25 +56,23 @@ namespace QuestionBank.Controllers
 
 
                 };
-                QuestionBankDbContext Db = new QuestionBankDbContext();
+             
                 Db.Exam.Add(exam);
                 List<ExamQuestions> lstQuestions = new List<ExamQuestions>();
                 foreach (var item in model.SeciliSorular)
                 {
-                    foreach (var puan in model.SoruPuani)
+
+                    ExamQuestions examquestions = new ExamQuestions()
                     {
-                        ExamQuestions examquestions = new ExamQuestions()
-                        {
-                            QuestionID = item,
-                            ExamID = exam.ID,
-                            Point = puan
+                        QuestionID = item,
+                        ExamID = exam.ID,
 
 
-                        };
-                        lstQuestions.Add(examquestions);
-                       
-                    }
-                    break;
+
+                    };
+                    lstQuestions.Add(examquestions);
+
+
                 }
                 Db.ExamQuestions.AddRange(lstQuestions);
                 Db.SaveChanges();
@@ -86,56 +90,65 @@ namespace QuestionBank.Controllers
             ModelState.Remove("questions");
             if (ModelState.IsValid)
             {
-                List<Question> questions = new List<Question>();
-                var sorular = Db.Question.ToList().Where(x => x.Topic.LessonID.Equals(model.DersID) && x.QuestionPeriodID.Equals(model.DonemID)).ToList();
-                foreach (var item in sorular)
+                if (Db.Exam.SingleOrDefault(x=>x.ExamName.Equals(model.SinavAdi))== null)
                 {
-                    int puan =0;
-                    if (item.QuestionType.QuestionTypeName.Equals("Klasik"))
+                    List<Question> questions = new List<Question>();
+                    var sorular = Db.Question.ToList().Where(x => x.Topic.LessonID.Equals(model.DersID) && x.QuestionPeriodID.Equals(model.DonemID)).ToList();
+                    foreach (var item in sorular)
                     {
-                        puan = model.KlasikSoruPuan;
-                    }
-                    else if (item.QuestionType.QuestionTypeName.Equals("Test"))
-                    {
-                        puan = model.TestSoruPuan;
-                    }
-                    else if (item.QuestionType.QuestionTypeName.Equals("Boşluk Doldurma"))
-                    {
-                        puan = model.BoslukSoruPuan;
-                    }
-                    item.Puan = puan;
-                    questions.Add(item);
+                        int puan = 0;
+                        if (item.QuestionType.QuestionTypeName.Equals("Klasik"))
+                        {
+                            puan = model.KlasikSoruPuan;
+                        }
+                        else if (item.QuestionType.QuestionTypeName.Equals("Test"))
+                        {
+                            puan = model.TestSoruPuan;
+                        }
+                        else if (item.QuestionType.QuestionTypeName.Equals("Boşluk Doldurma"))
+                        {
+                            puan = model.BoslukSoruPuan;
+                        }
 
-                }
-                List<Question> SeciliAdetSoru = new List<Question>();
-                SeciliAdetSoru.AddRange(sorular.Where(x => x.QuestionType.QuestionTypeName.Equals("Klasik")).OrderBy(x => Guid.NewGuid()).Take(model.KlasikSoruAdet));
-                SeciliAdetSoru.AddRange(sorular.Where(x => x.QuestionType.QuestionTypeName.Equals("Test")).OrderBy(x => Guid.NewGuid()).Take(model.TestSoruAdet));
-                SeciliAdetSoru.AddRange(sorular.Where(x => x.QuestionType.QuestionTypeName.Equals("Boşluk Doldurma")).OrderBy(x => Guid.NewGuid()).Take(model.BoslukSoruAdet));
+                        questions.Add(item);
 
-                Exam exam = new Exam()
-                {
-                    ExamName = model.SinavAdi
-                };
-                Db.Exam.Add(exam);
+                    }
+                    List<Question> SeciliAdetSoru = new List<Question>();
+                    SeciliAdetSoru.AddRange(sorular.Where(x => x.QuestionType.QuestionTypeName.Equals("Klasik")).OrderBy(x => Guid.NewGuid()).Take(model.KlasikSoruAdet));
+                    SeciliAdetSoru.AddRange(sorular.Where(x => x.QuestionType.QuestionTypeName.Equals("Test")).OrderBy(x => Guid.NewGuid()).Take(model.TestSoruAdet));
+                    SeciliAdetSoru.AddRange(sorular.Where(x => x.QuestionType.QuestionTypeName.Equals("Boşluk Doldurma")).OrderBy(x => Guid.NewGuid()).Take(model.BoslukSoruAdet));
 
-                List<ExamQuestions> SecilmisEklenecekSorular = new List<ExamQuestions>();
-                foreach (var item in SeciliAdetSoru)
-                {
-                    ExamQuestions examQuestions = new ExamQuestions()
+                    Exam exam = new Exam()
                     {
-                        QuestionID = item.ID,
-                        ExamID = exam.ID,
-                        Point = item.Puan
+                        ExamName = model.SinavAdi
                     };
-                    SecilmisEklenecekSorular.Add(examQuestions);
+                    Db.Exam.Add(exam);
+
+                    List<ExamQuestions> SecilmisEklenecekSorular = new List<ExamQuestions>();
+                    foreach (var item in SeciliAdetSoru)
+                    {
+                        ExamQuestions examQuestions = new ExamQuestions()
+                        {
+                            QuestionID = item.ID,
+                            ExamID = exam.ID,
+
+                        };
+                        SecilmisEklenecekSorular.Add(examQuestions);
+                    }
+                    Db.ExamQuestions.AddRange(SecilmisEklenecekSorular);
+                    Db.SaveChanges();
+                    ViewBag.Message = exam.ExamName + " Sınavı başarıyla oluşturulmuştur...";
                 }
-                Db.ExamQuestions.AddRange(SecilmisEklenecekSorular);
-                Db.SaveChanges();
-                ViewBag.Message = exam.ExamName + " Sınavı başarıyla oluşturulmuştur...";
+
+           
+            else
+            {
+                ViewBag.EMessage = $"<div class='alert alert-danger'><strong>Böyle bir sınav mevcuttur lütfen yeni bir sınav adı giriniz...!</strong>  </div>";
+            }
             }
             else
             {
-                ViewBag.EMessage= $"<div class='alert alert-danger'><strong>Hata!</strong>  </div>";
+                ViewBag.EMessage = $"<div class='alert alert-danger'><strong>Hata!</strong>  </div>";
             }
             return View("Add");
         }
@@ -186,8 +199,8 @@ namespace QuestionBank.Controllers
         public ActionResult ExamShow(int ID)
         {
             QuestionBankDbContext Db = new QuestionBankDbContext();
-            var model= Db.ExamQuestions.Where(x => x.ExamID.Equals(ID)).ToList();
-            
+            var model = Db.ExamQuestions.Where(x => x.ExamID.Equals(ID)).ToList();
+
             return View(Db.ExamQuestions.Where(x => x.ExamID.Equals(ID)).ToList()
 );
         }
@@ -214,6 +227,6 @@ namespace QuestionBank.Controllers
             }
             return message;
         }
-       
+
     }
 }

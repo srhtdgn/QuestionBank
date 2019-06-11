@@ -73,26 +73,25 @@
             </div>
         </div>
 
-        @*@using (Html.BeginForm("AddQuestion", "Question", FormMethod.Post, new { enctype = "multipart/form-data" }))
-        {
-            <div class="form-group">
+
+        @*<div class="form-group">
                 <div class="fileinput fileinput-new" data-provides="fileinput">
                     <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
-                           <img src="~/Uploads/no_image.png" alt="" />
-                       
+                        <img src="~/Uploads/no_image.png" id="image1" name="image2" alt="" />
+
                     </div>
                     <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"> </div>
                     <div>
                         <span class="btn default btn-circle bold btn-file">
                             <span class="fileinput-new"> Fotoğraf Seç </span>
                             <span class="fileinput-exists"> Değiştir </span>
-                            <input type="file" name="image">
+                            <input type="file" name="image" id="image">
                         </span>
                         <a href="javascript:;" class="btn default btn-circle bold btn-file" data-dismiss="fileinput"> Sil </a>
                     </div>
                 </div>
             </div>*@
-            @*<div class="margin-top-10">
+        @*<div class="margin-top-10">
                 <input type="submit" value="Resmi Kaydet" class="btn btn-circle green resimgonder" />
             </div>*@
         @*}*@
@@ -115,6 +114,17 @@
             <label class="col-md-offset-2  control-label btn" id="CevapEkle">Yeni Cevap Ekle</label>
         </div>
 
+        <div class="form-group">
+            <label class="col-md-2 control-label">Soru Puanı</label>
+            <div class="col-md-2">
+                <input type="text" name="SoruPuan" id="SoruPuan" class="form-control col-md-2 mask_number" placeholder="Soru Puanı">
+            </div>
+
+            <label class="col-md-2 control-label">Soru Süresi</label>
+            <div class="col-md-2">
+                <input type="text" name="SoruSure" id="SoruSure" class="form-control col-md-2 mask_number" placeholder="Soru Süresi">
+            </div>
+        </div>
 
 
         <div class="form-group">
@@ -211,13 +221,10 @@
                 Cevapsayisi--;
 
             });
-            //$('.resimgonder').click(function () {
 
-            //    $('resimgonder').after(alert("Handler for .click() called."));
-            //});
 
             $('.gonder').click(function () {
-                
+
                 var lst = [];
                 $.each($('.txtcevap'), function () {
                     var obj = {
@@ -232,6 +239,9 @@
                     PeriodID: $('#Donem').val(),
                     QuestionTypeID: $('#SoruTipi').val(),
                     Question: $('#soru').val(),
+                    SoruPuan: $('#SoruPuan').val(),
+                    SoruSure: $('#SoruSure').val(),
+                        //image: $('#image1').prop('src'),
                     Answers: lst
                 };
 

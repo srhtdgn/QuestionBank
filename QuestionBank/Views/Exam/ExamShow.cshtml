@@ -10,9 +10,9 @@
 <div class="row">
     <div class="col-md-6">
         <div class="btn-group">
-            <button id="sample_editable_1_2_new22" class="btn sbold green" onclick="location.href='@Url.RouteUrl("Exams")'">
+            <button id="sample_editable_1_2_new22" class="btn btn-circle green" onclick="location.href='@Url.RouteUrl("Exams")'">
+                <i class="fa fa-arrow-left"></i>
                 Sınav Listesi
-                <i class="fa fa-plus"></i>
             </button>
         </div>
     </div>
@@ -49,6 +49,7 @@
                                         <th>
                                             Puan
                                         </th>
+                                        <td>süre</td>
                                         <th>
                                             Soru
                                         </th>
@@ -66,8 +67,9 @@
                                             <td>
                                                 <span>@i</span>
                                             </td>
+                                            <td>@item.Question.Time dakika</td>
                                             <td>
-                                                @item.Point puan
+                                                @item.Question.Point puan
                                             </td>
                                             <td>
                                                 @item.Question.Question1
@@ -130,7 +132,7 @@
                                                 <span>@j</span>
                                             </td>
                                             <td>
-                                                @item.Point puan
+                                                @item.Question.Point puan
                                             </td>
                                             <td>
                                                 @item.Question.Question1

@@ -42,28 +42,26 @@
             <label class="col-md-2 control-label">Soru Dönemi</label>
             <div class="col-md-10">
                 <div class="mt-checkbox-list">
-                    @foreach (var item in ViewBag.QuestionPeriod)
+                    @foreach (var period in Model.topic.TopicQuestionPeriod)
                     {
-                        foreach (var period in Model.topic.TopicQuestionPeriod)
-                        {
-                            if (item.QuestionPeriodName == period.QuestionPeriod.QuestionPeriodName)
-                            {
-                                <label class="mt-checkbox">
-                                    <input type="checkbox" name="periods" value="@period.QuestionPeriod.ID" checked> @period.QuestionPeriod.QuestionPeriodName
-                                    <span></span>
-                                </label>
-                            }
-                            else
-                            {
-                                <label class="mt-checkbox">
-                                    <input type="checkbox" name="periods" value="@item.QuestionPeriodName">@item.QuestionPeriodName
-                                    <span></span>
-                                </label>
-                            }
+                        <label class="mt-checkbox">
+                            <input type="checkbox" name="periods" value="@period.QuestionPeriod.ID" checked> @period.QuestionPeriod.QuestionPeriodName
+                            <span></span>
+                        </label>
 
-                            continue;
-                        }
                     }
+
+                    @*@foreach (var period in Model.topic.TopicQuestionPeriod)
+        {
+
+                <label class="mt-checkbox">
+                    <input type="checkbox" name="periods" value="@period.QuestionPeriod.ID" checked> @period.QuestionPeriod.QuestionPeriodName
+                    <span></span>
+                </label>
+
+
+        }*@
+
                 </div>
             </div>
         </div>

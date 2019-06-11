@@ -10,7 +10,7 @@ namespace QuestionBank.Models
         public QuestionBankDbContext()
             : base("name=QuestionBankDbContext")
         {
-            Database.SetInitializer<QuestionBankDbContext>(new MyInitializer());
+            Database.SetInitializer<QuestionBankDbContext>(new DropCreateDatabaseIfModelChanges<QuestionBankDbContext>());
         }
 
         public virtual DbSet<C_MigrationHistory> C_MigrationHistory { get; set; }

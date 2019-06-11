@@ -18,77 +18,85 @@
 </div>
 
 <br />
-<div id="message"></div>
+@*<div id="message"></div>*@
 @Html.Raw(@ViewBag.Message)
 <div class="portlet-body form">
-    @using (Html.BeginForm("Edit", "Question", FormMethod.Post))
-    {
 
-        @Html.AntiForgeryToken()
-        <div class="form-horizontal">
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
 
-            <div class="form-group">
-                <label class="col-md-2 control-label">Dersin Adı</label>
-                <div class="col-md-10">
-                    @*// @Html.DropDownListFor(x => x.question.Topic.LessonID, new SelectList(Model.Lessons, "ID", "LessonName"), new { @class = "form-control ", disabled = "disabled" })*@
-                    @Html.TextBoxFor(x => x.question.Topic.Lesson.LessonName, new { @class = "form-control ", @readonly = "true" })
+        <div class="form-group">
+            <label class="col-md-2 control-label">Dersin Adı</label>
+            <div class="col-md-10">
+                @Html.TextBoxFor(x => x.question.Topic.Lesson.LessonName, new { @class = "form-control ", @readonly = "true" })
 
 
-                </div>
             </div>
+        </div>
 
-            <div class="form-group">
-                <label class="col-md-2 control-label">Konular</label>
-                <div class="col-md-10">
-                    @Html.DropDownListFor(x => x.question.TopicID, new SelectList(Model.Topics, "ID", "TopicName"), new { @class = "form-control" })
-                </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label">Konular</label>
+            <div class="col-md-10">
+                @Html.DropDownListFor(x => x.question.TopicID, new SelectList(Model.Topics, "ID", "TopicName"), new { @class = "form-control", @id = "Konu" })
             </div>
+        </div>
 
-            <div class="form-group">
-                <label class="col-md-2 control-label">Soru Tipi</label>
-                <div class="col-md-10">
-                    @Html.DropDownListFor(x => x.question.QuestionTypeID, new SelectList(Model.Types, "ID", "QuestionTypeName"), new { @class = "form-control" })
+        <div class="form-group">
+            <label class="col-md-2 control-label">Soru Tipi</label>
+            <div class="col-md-10">
+                @Html.DropDownListFor(x => x.question.QuestionTypeID, new SelectList(Model.Types, "ID", "QuestionTypeName"), new { @class = "form-control", @id = "SoruTipi" })
 
-                </div>
             </div>
+        </div>
 
-            <div class="form-group">
-                <label class="col-md-2 control-label">Soru</label>
-                <div class="col-md-10">
-                    @Html.TextAreaFor(x => x.question.Question1, new { @class = "form-control" })
+        <div class="form-group">
+            <label class="col-md-2 control-label">Soru</label>
+            <div class="col-md-10">
+                @Html.TextAreaFor(x => x.question.Question1, new { @class = "form-control", @id = "soru" })
 
-                </div>
             </div>
-            <div class="form-group">
-                <label class="col-md-2 control-label">Cevaplar</label>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label">Cevaplar</label>
 
-                @foreach (var item in Model.question.Answers)
+            @foreach (var item in Model.question.Answers)
+            {
+                if (item.IsItTrue)
                 {
-                    if (item.IsItTrue)
-                    {
-                        <div class='col-md-offset-2 col-md-10 divcevap'><div class='input-group'><span class='input-group-addon'><input type='radio' class="RadioCevap" name="RadioCevap" checked><span></span></span><div class='input-icon right'><i class='fa fa-close  sil' style='color:ghostwhite'></i><i class='fa fa-mic'></i><input type='text' name="txtdogrucevap" value="@item.Answer" class='form-control  txtcevap'></div></div></div>
-
-                    }
-                    else
-                    {
-
-                        <div class='col-md-offset-2 col-md-10 divcevap'><div class='input-group'><span class='input-group-addon'><input type='radio' class="RadioCevap" name="RadioCevap"><span></span></span><div class='input-icon right'><i class='fa fa-close  sil' style='color:black'></i><i class='fa fa-mic'></i><input type='text' name="txtyanliscevap" value="@item.Answer" class='form-control  txtcevap'></div></div></div>
-                    }
+                    <div class='col-md-offset-2 col-md-10 divcevap'><div class='input-group'><span class='input-group-addon'><input type='radio' class="RadioCevap" name="RadioCevap" checked><span></span></span><div class='input-icon right'><i class='fa fa-close  sil' style='color:ghostwhite'></i><i class='fa fa-mic'></i><input type='text' name="txtdogrucevap" value="@item.Answer" class='form-control  txtcevap'></div></div></div>
 
                 }
-                <label class="col-md-offset-2  control-label btn" id="CevapEkle">Yeni Cevap Ekle</label>
-            </div>
+                else
+                {
 
-            @Html.HiddenFor(x => x.question.ID)
+                    <div class='col-md-offset-2 col-md-10 divcevap'><div class='input-group'><span class='input-group-addon'><input type='radio' class="RadioCevap" name="RadioCevap"><span></span></span><div class='input-icon right'><i class='fa fa-close  sil' style='color:black'></i><i class='fa fa-mic'></i><input type='text' name="txtyanliscevap" value="@item.Answer" class='form-control  txtcevap'></div></div></div>
+                }
 
-            <div class="form-group">
-                <div class="col-md-offset-2  col-md-10">
-                    <input type="submit" value="Güncelle" class="btn btn-circle green gonder" />
-                </div>
-            </div>
-
+            }
+            <label class="col-md-offset-2  control-label btn" id="CevapEkle">Yeni Cevap Ekle</label>
         </div>
-    }
+        <div class="form-group">
+            <label class="col-md-2 control-label">Soru Puanı</label>
+            <div class="col-md-2">
+                @Html.TextBoxFor(x=>x.question.Point, new { @class = "form-control col-md-2 mask_number ", @id ="SoruPuan"})
+            </div>
+
+            <label class="col-md-2 control-label">Soru Süresi</label>
+            <div class="col-md-2">
+                @Html.TextBoxFor(x => x.question.Time, new { @class = "form-control col-md-2 mask_number ", @id = "SoruSure" })
+            </div>
+        </div>
+
+        @Html.HiddenFor(x => x.question.ID, new {  @id = "ID" })
+
+        <div class="form-group">
+            <div class="col-md-offset-2  col-md-10">
+                <input type="button" value="Güncelle" class="btn btn-circle green gonder" />
+            </div>
+        </div>
+
+    </div>
+  
 </div>
 @section styles{
     <link href="/Content/assets/global/plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
@@ -108,7 +116,7 @@
             $('#CevapEkle').on("click", function () {
                 if (Cevapsayisi < 5) {
                     Cevapsayisi++;
-                    $(this).prev().after("<div class='col-md-offset-2 col-md-10 divcevap' ><div class='input-group'><span class='input-group-addon'><input type='radio'class='RadioCevap' name='RadioCevap'><span></span></span><div class='input-icon right'><i class='fa fa-close  sil' style='color:black'></i><i class='fa fa-mic'></i><input name='txtyanliscevap' type='text' class='form-control  txtcevap'></div></div></div>");
+                    $(this).prev().after("<div class='col-md-offset-2 col-md-10 divcevap' ><div class='input-group'><span class='input-group-addon'><input type='radio' class='RadioCevap' name='RadioCevap'><span></span></span><div class='input-icon right'><i class='fa fa-close  sil' style='color:black'></i><i class='fa fa-mic'></i><input name='txtyanliscevap' type='text' class='form-control  txtcevap'></div></div></div>");
 
                 }
                 else {
@@ -124,19 +132,46 @@
                 Cevapsayisi--;
 
             });
-            $('.RadioCevap').click(function () {
-                $.each($('.txtcevap'), function () {
-                    if ($($($(this).parent().prev()).children()).prop('checked')) {
-                        $(this).attr('name', 'txtdogrucevap');
-                    }
-                    else {
-                        $(this).attr('name', 'txtyanliscevap');
-                    }
+            $('.gonder').click(function () {
 
+                var lst = [];
+                $.each($('.txtcevap'), function () {
+                    var obj = {
+                        Val: $($($(this).parent().prev()).children()).prop('checked'),
+                        AnswerContent: $(this).val()
+                    };
+                    lst.push(obj);
+                });
+
+                var data = {
+                    TopicID: $('#Konu').val(),
+                    //PeriodID: $('#Donem').val(),
+                    QuestionTypeID: $('#SoruTipi').val(),
+                    Question: $('#soru').val(),
+                    SoruPuan: $('#SoruPuan').val(),
+                    SoruSure: $('#SoruSure').val(),
+                    QuestionID:$('#ID').val(),
+                    //image: $('#image1').prop('src'),
+                    Answers: lst
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "SoruEkle2",
+                    data: JSON.stringify(data),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.durum == "OK") {
+                            $("#message").append("<div class='alert alert-info'><strong></strong>" + data.mesaj + " </div>")
+                        }
+                        else if (data.durum = "NO") {
+                            $("#message").append("<div class='alert alert-info'><strong></strong>" + data.mesaj + " </div>")
+                        }
+                    }
                 });
             });
-
-
+           
         });
 
 

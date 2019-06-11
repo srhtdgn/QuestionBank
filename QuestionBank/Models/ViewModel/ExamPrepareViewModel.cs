@@ -19,16 +19,16 @@ namespace QuestionBank.Models.ViewModel
         #region ManuelSınavHazırlama
         public string SinavAdi { get; set; }
         public int[] SeciliSorular { get; set; }
-        public int[] SoruPuani { get; set; }
-        //public int ToplamSinavPuani { get; set; }
+
         #endregion
         #region OtomatikSınavHazırlama
+        public string ZorlukID { get; set; }
         public int KlasikSoruAdet { get; set; }
         public int TestSoruAdet { get; set; }
         public int BoslukSoruAdet { get; set; }
         public int KlasikSoruPuan { get; set; }
         public int TestSoruPuan { get; set; }
-         public int BoslukSoruPuan { get; set; }
+        public int BoslukSoruPuan { get; set; }
         #endregion
     }
 }
